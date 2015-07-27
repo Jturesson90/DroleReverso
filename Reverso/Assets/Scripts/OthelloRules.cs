@@ -23,7 +23,46 @@ public class OthelloRules : MonoBehaviour
 		SW,
 		W
 	}
+	public bool HasWinner(){
+		int bricksLeft = 0;
+		foreach (OthelloPiece brick in othello.bricks) {
+			if(brick.brickColor == BrickColor.Empty || brick.brickColor == BrickColor.Hint){
+				bricksLeft++;
+			}
+		}
+		bool hasWinner = false;
+		hasWinner = bricksLeft == 0 ? true : false;
+		
+		print ("Has winner? "+hasWinner);
+		return hasWinner;
+	}
+	public bool CanMakeMove(){
 
+
+		int i = 0;
+		foreach (OthelloPiece brick in othello.bricks ) {
+			i++;
+			if(brick.brickColor == BrickColor.Black || brick.brickColor == BrickColor.White){
+				continue;
+			}
+		
+			foreach (Direction direction in  Enum.GetValues(typeof(Direction))) {
+				OthelloPiece nextBrick = NextBrickInDirection (brick.x, brick.y, direction);
+				if (nextBrick != null) {
+					if (ValidateLine (nextBrick.x, nextBrick.y, direction, 1)) {
+						print ("Can make move? YES");
+						return true;
+					}
+				}
+			}
+
+
+
+		}
+		print ("Can make move? NO");
+		return false;
+
+	}
 
 	public ArrayList ValidMoves (OthelloPiece brick)
 	{
@@ -48,31 +87,31 @@ public class OthelloRules : MonoBehaviour
 	
 		//if outside the board return false
 		if (X < 0 || X > max || Y < 0 || Y > max) {
-			print (direction + " Next brick is OUTSIDE!");
+		//	print (direction + " Next brick is OUTSIDE!");
 			return false;
 		}
 		//if empty return false
 		else if (IsEmpty (othello.bricks [X, Y])) {
-			print (direction + " Next brick is EMPTY!");
+			//print (direction + " Next brick is EMPTY!");
 			return false;
 		}
 		//if has stepped over atleast 1 of opponents bricks and now finds your own color. Returns true and validates the move as a valid move. 
 		else if (step > 1 && ((Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && othello.bricks [X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.White && othello.bricks [X, Y].brickColor == BrickColor.White))) {
-			print (direction + " Next brick makes the line VALID!");
+		//	print (direction + " Next brick makes the line VALID!");
 			return true;
 		}
 		//if first checked brick is the same color return false
 		else if (step == 1 && ((Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && othello.bricks [X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.White && othello.bricks [X, Y].brickColor == BrickColor.White))) {
-			print (direction + " Next brick on the first step is the same color!");
+		//	print (direction + " Next brick on the first step is the same color!");
 			return false;
 		} else {
-			print (direction + " CONTINUING for next Validation");
+		//	print (direction + " CONTINUING for next Validation");
 			OthelloPiece brick = NextBrickInDirection (X, Y, direction);
 			if (brick != null) {
 				step += 1;
 				return ValidateLine (brick.x, brick.y, direction, step);
 			} else {
-				print (direction + " Reached the end, not a valid direction");
+		//		print (direction + " Reached the end, not a valid direction");
 				return false;
 			}
 		}

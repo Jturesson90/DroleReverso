@@ -82,7 +82,9 @@ public class GameBoard : MonoBehaviour
 		#else
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		#endif
-
+		if (!GetComponent<Othello> ().canMove) {
+			return;
+		}
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
 			if (hit.transform.tag == "GamePiece") {
@@ -122,13 +124,17 @@ public class GameBoard : MonoBehaviour
 
 
 	public void CheckArrows (Othello.PlayerColor playerColor)
-	{
+	{	
+
 		if (playerColor == Othello.PlayerColor.White) {
 			whiteArrow.SetActive (true);
 			blackArrow.SetActive (false);
-		} else {
+		} else if (playerColor == Othello.PlayerColor.Black) {
 			whiteArrow.SetActive (false);
 			blackArrow.SetActive (true);
+		} else {
+			whiteArrow.SetActive (false);
+			blackArrow.SetActive (false);
 		}
 	}
 	public void UpdateBoard (OthelloPiece[,] bricks)

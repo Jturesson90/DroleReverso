@@ -5,11 +5,16 @@ public class Othello : MonoBehaviour
 {
 	GameBoard gameBoard;
 	OthelloRules othelloRules;
+	CantMove cantMove;
+
+	public bool canMove;
+	public bool hasWinner;
 
 	public enum PlayerColor
 	{
 		White,
-		Black
+		Black,
+		NoOne
 	}
 
 	public static PlayerColor CURRENT_PLAYER = PlayerColor.White;
@@ -20,6 +25,9 @@ public class Othello : MonoBehaviour
 
 	void Awake ()
 	{
+		canMove = true;
+		cantMove = GameObject.Find ("CantMovePanel").GetComponent<CantMove> ();
+		CURRENT_PLAYER = PlayerColor.White;
 		othelloRules = GetComponent<OthelloRules> ();
 		gameBoard = GetComponent<GameBoard> ();
 	}
@@ -56,7 +64,37 @@ public class Othello : MonoBehaviour
 
 			gameBoard.UpdateBoard (bricks);
 			ChangePlayer ();
+			CheckForValidMoves ();
 		}
+	}
+
+
+	private void CheckForValidMoves(){
+		if (othelloRules.HasWinner()) {
+			GameOver();
+			return;
+		}
+		// No one can move
+		if (!othelloRules.CanMakeMove()) {
+			ChangePlayer();
+			if(!othelloRules.CanMakeMove()){
+				GameOver();
+			}else{
+				if(CURRENT_PLAYER == Othello.PlayerColor.Black ){
+					cantMove.WhiteCantMove();
+				}else{
+					cantMove.BlackCantMove();
+				}
+
+			}
+		}
+
+	}
+	private void GameOver(){
+		hasWinner = true;
+		CURRENT_PLAYER = PlayerColor.NoOne;
+		gameBoard.CheckArrows (CURRENT_PLAYER);
+		cantMove.NoOneCanMove(bricks);
 	}
 	private void ChangePlayer ()
 	{

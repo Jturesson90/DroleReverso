@@ -6,6 +6,7 @@ public class OthelloRules : MonoBehaviour
 {
 	Othello othello;
 
+
 	void Awake ()
 	{
 		othello = GetComponent<Othello> ();
@@ -32,36 +33,28 @@ public class OthelloRules : MonoBehaviour
 		}
 		bool hasWinner = false;
 		hasWinner = bricksLeft == 0 ? true : false;
-		
-		print ("Has winner? "+hasWinner);
 		return hasWinner;
 	}
 	public bool CanMakeMove(){
-
-
+		
 		int i = 0;
 		foreach (OthelloPiece brick in othello.bricks ) {
 			i++;
+
 			if(brick.brickColor == BrickColor.Black || brick.brickColor == BrickColor.White){
 				continue;
 			}
-		
+
 			foreach (Direction direction in  Enum.GetValues(typeof(Direction))) {
 				OthelloPiece nextBrick = NextBrickInDirection (brick.x, brick.y, direction);
 				if (nextBrick != null) {
 					if (ValidateLine (nextBrick.x, nextBrick.y, direction, 1)) {
-						print ("Can make move? YES");
 						return true;
 					}
 				}
 			}
-
-
-
 		}
-		print ("Can make move? NO");
 		return false;
-
 	}
 
 	public ArrayList ValidMoves (OthelloPiece brick)
@@ -128,7 +121,7 @@ public class OthelloRules : MonoBehaviour
 		} else if ((dir == Direction.N) && Y < max && !IsEmpty (othello.bricks [X, Y + 1])) {
 			//Found something in N
 			return othello.bricks [X, Y + 1];
-		} else if ((dir == Direction.NE) && X < max - 1 && Y < max && !IsEmpty (othello.bricks [X + 1, Y + 1])) {
+		} else if ((dir == Direction.NE) && X < max && Y < max && !IsEmpty (othello.bricks [X + 1, Y + 1])) {
 			//Found something in NE
 			return othello.bricks [X + 1, Y + 1];
 		} else if ((dir == Direction.W) && X > 0 && !IsEmpty (othello.bricks [X - 1, Y])) {
@@ -149,12 +142,39 @@ public class OthelloRules : MonoBehaviour
 		}
 		return null;
 	}
+	public ArrayList GetAllValidMoves(){
+		ArrayList validMoves = new ArrayList ();
+		ArrayList validDirections;
+		foreach (OthelloPiece brick in othello.bricks) {
+			if(brick.brickColor == BrickColor.Empty || brick.brickColor == BrickColor.Hint){
+				validDirections = ValidMoves(brick);
+				if(validDirections.Count > 0){
+					validMoves.Add(brick);
+				}
+			}
+		}
+		return validMoves;
+	}
+	public void FlashRow(OthelloPiece brick, Direction direction)
+	{
+		int X = brick.x;
+		int Y = brick.y;
+		if ((Othello.CURRENT_PLAYER == Othello.PlayerColor.White && othello.bricks [X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && othello.bricks [X, Y].brickColor == BrickColor.White)) {
+			Flash (brick);
+			
+			brick = NextBrickInDirection (X, Y, direction);
+			FlashRow (brick, direction);
+		} else {
+			return;
+		}
+	}
 	public void TurnRow (OthelloPiece brick, Direction direction)
 	{
 		int X = brick.x;
 		int Y = brick.y;
 		if ((Othello.CURRENT_PLAYER == Othello.PlayerColor.White && othello.bricks [X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && othello.bricks [X, Y].brickColor == BrickColor.White)) {
 			Turn (brick);
+		
 			brick = NextBrickInDirection (X, Y, direction);
 			TurnRow (brick, direction);
 		} else {
@@ -168,6 +188,10 @@ public class OthelloRules : MonoBehaviour
 		} else {
 			brick.brickColor = BrickColor.Black;
 		}
+	}
+	void Flash(OthelloPiece brick)
+	{
+		brick.ShouldFlash = true;	
 	}
 	void Turn (OthelloPiece brick)
 	{
@@ -194,17 +218,18 @@ public class OthelloRules : MonoBehaviour
 		}
 	}
 
-	public void TurnRow (OthelloPiece[,] bricks, OthelloPiece brick, Direction direction)
-	{
-		/*	var currentRow = brick.y;
-		var currentCol = brick.x;
-		if ((playerTurn == white && boxes [currentRow] [currentCol].player == black) || (playerTurn == black && boxes [currentRow] [currentCol].player == white)) {
-			TurnBrick (brick);
-			brick = nextBrickInDirection (currentRow, currentCol, direction);
-			turnRow (brick, direction);
-		} else {
-			return;
-		}*/
+	public void ReleaseAllFlashes(){
+		foreach (OthelloPiece brick in othello.bricks) {
+			if(IsColored(brick)){
+				brick.ShouldFlash = false;
+			}
+		}
 	}
 
+	private bool IsColored(OthelloPiece brick){
+		if (brick.brickColor == BrickColor.Black || brick.brickColor == BrickColor.White) {
+			return true;
+		}
+		return false;
+	}
 }

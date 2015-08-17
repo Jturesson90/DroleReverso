@@ -6,7 +6,8 @@ public class CantMove : MonoBehaviour {
 
 	Animator anim;
 	Othello othello;
-	
+
+
 	private const string TRIGGER_SWIPE_OUT = "SwipeOut";
 	private const string TRIGGER_SWIPE_IN = "SwipeIn";
 	Text cantMoveText;
@@ -25,6 +26,7 @@ public class CantMove : MonoBehaviour {
 	}
 
 	void Start(){
+        
 	}
 
 	public void WhiteCantMove(){

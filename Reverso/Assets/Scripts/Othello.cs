@@ -39,6 +39,7 @@ public class Othello : MonoBehaviour
 
 	void Awake ()
 	{
+        
 		showOutOfTime = true;
 		canMove = true;
 		cantMove = GameObject.Find ("CantMovePanel").GetComponent<CantMove> ();
@@ -50,6 +51,7 @@ public class Othello : MonoBehaviour
 
 	void Start ()
 	{
+            
 		bricks = gameBoard.SetupBoard (bricks);
 		if(manager.SpeedMode){
 			ResetSpeedMode ();

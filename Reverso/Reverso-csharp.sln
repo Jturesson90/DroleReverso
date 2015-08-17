@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{1710DDC6-BB7B-DB38-C5F5-C10FFCC3A974}") = "Reverso", "Assembly-CSharp-vs.csproj", "{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}"
 EndProject
+Project("{1710DDC6-BB7B-DB38-C5F5-C10FFCC3A974}") = "Reverso", "Assembly-CSharp-Editor-vs.csproj", "{02BE6D86-D7D4-D800-5B8D-1493DE326FC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02BE6D86-D7D4-D800-5B8D-1493DE326FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02BE6D86-D7D4-D800-5B8D-1493DE326FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02BE6D86-D7D4-D800-5B8D-1493DE326FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02BE6D86-D7D4-D800-5B8D-1493DE326FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																					GlobalSection(MonoDevelopProperties) = preSolution
+																																														GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

@@ -43,11 +43,11 @@ public class ExitApplication : MonoBehaviour
             {
                 Application.Quit();
             }
-            
+
         }
     }
 
-    void ShowExitDialog()
+    public void ShowExitDialog()
     {
 
         if (canSwipeIn)
@@ -55,18 +55,26 @@ public class ExitApplication : MonoBehaviour
             anim.SetTrigger(TRIGGER_SWIPE_IN);
             canSwipeIn = false;
         }
-        
+
         if (!othello) return;
         othello.canMove = false;
-       
-      
+
+
 
     }
     public void YesButton()
     {
         if (Application.loadedLevelName.Equals("GameScene"))
         {
-            Application.LoadLevel(Application.loadedLevel - 1);
+            if (OthelloManager.Instance != null)
+            {
+                if (OthelloManager.Instance.PlayingOnline)
+                {
+                    OnlinePlayingEvents.OnQuit();
+                    return;
+                }
+            }
+            Application.LoadLevel("GameMenu");
         }
         else
         {
@@ -82,6 +90,6 @@ public class ExitApplication : MonoBehaviour
         canSwipeIn = true;
         if (!othello) return;
         othello.canMove = true;
-        
+
     }
 }

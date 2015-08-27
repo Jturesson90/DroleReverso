@@ -9,16 +9,15 @@ public class MainMenuEvents : MonoBehaviour
 {
     private System.Action<bool> _authCallback;
     private bool _signingIn = false;
- 
 
-    Toggle hintToggle;
-    Toggle speedModeToggle;
 
+    public Toggle hintToggle;
+    public Toggle speedModeToggle;
     void Awake()
     {
 
-        hintToggle = GameObject.Find("HintsToggle").GetComponent<Toggle>();
-        speedModeToggle = GameObject.Find("SpeedModeToggle").GetComponent<Toggle>();
+
+
 
     }
     void Start()
@@ -39,15 +38,20 @@ public class MainMenuEvents : MonoBehaviour
                 Debug.Log("Auth failed!!");
             }
         };
-        ConfigPlayGames();
+        if (ReversoPlayerPrefs.ShouldLogIn())
+        {
+            ConfigPlayGames();
+            ReversoPlayerPrefs.SetShouldLogIn(false);
+        }
+        
 
     }
     void Update()
     {
         UpdateInvitation();
-       
+
         if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
-        
+
     }
     public void UpdateInvitation()
     {
@@ -71,11 +75,7 @@ public class MainMenuEvents : MonoBehaviour
             }
         }
     }
-    public void OnTestInvitationPanel()
-    {
-        NavigationUtil.ShowInvitationPanel();
-    }
-    void ConfigPlayGames()
+    public void ConfigPlayGames()
     {
         var config = new PlayGamesClientConfiguration.Builder()
            .WithInvitationDelegate(InvitationManager.Instance.OnInvitationReceived)
@@ -92,11 +92,14 @@ public class MainMenuEvents : MonoBehaviour
             Debug.Log("Starting sign-in...");
             _signingIn = true;
             PlayGamesPlatform.Instance.Authenticate(_authCallback, silent);
+
         }
+
         else
         {
             Debug.Log("Already started signing in");
         }
+
     }
 
 
@@ -111,8 +114,6 @@ public class MainMenuEvents : MonoBehaviour
     public void HintsToggle_ValueChanged()
     {
         ReversoPlayerPrefs.SetHints(hintToggle.isOn);
-        print("Real: " + hintToggle.isOn);
-        print("PlayerPref: " + ReversoPlayerPrefs.IsHintsOn());
     }
 
     public void OnTwoPlayer()
@@ -145,6 +146,7 @@ public class MainMenuEvents : MonoBehaviour
         {
             Authorize(false);
         }
+
     }
 
     public void OnLogout()
@@ -157,4 +159,8 @@ public class MainMenuEvents : MonoBehaviour
 
     }
 
+    public void OnOptionsPressed()
+    {
+        NavigationUtil.ShowOptionsPanel();
+    }
 }

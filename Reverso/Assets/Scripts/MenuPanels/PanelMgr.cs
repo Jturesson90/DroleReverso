@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class PanelMgr : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PanelMgr : MonoBehaviour
     private const string TRIGGER_SWIPE_IN = "SwipeIn";
 
 
-
+    public GameObject optionsPanel;
     public GameObject mainMenu;
     public GameObject onlineMenu;
     public GameObject playingPanel;
@@ -30,10 +31,11 @@ public class PanelMgr : MonoBehaviour
     }
     public void OpenMainMenuPanel()
     {
-    
+
         if (!Application.loadedLevelName.Equals("GameScene"))
         {
             OpenPanel(mainMenu);
+
         }
         else
         {
@@ -49,8 +51,35 @@ public class PanelMgr : MonoBehaviour
 
     }
 
+    internal void OnBackbuttonPressenInMenu()
+    {
+        if (currentPanel == mainMenu)
+        {
+            if (ReversoGooglePlay.Instance != null)
+            {
+                ReversoGooglePlay.Instance.CleanUp();
+            }
+            Application.Quit();
+            return;
+        }
+        else
+        {
+            OpenPanel(mainMenu);
+        }
 
 
+    }
+    public void OpenOptionsPanel()
+    {
+        if (currentPanel == optionsPanel)
+        {
+            OpenPanel(mainMenu);
+        }
+        else
+        {
+            OpenPanel(optionsPanel);
+        }
+    }
     public void OpenOnlineMenu()
     {
         OpenPanel(onlineMenu);

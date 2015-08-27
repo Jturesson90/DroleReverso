@@ -5,12 +5,15 @@ using System;
 public class OthelloManager
 {
 
-    private static OthelloManager othelloManager;
 
+    private static OthelloManager _instance;
     private bool _speedMode = false;
     private bool _playAgainstComputer = false;
     private bool _useHints = true;
     private Othello.PlayerColor _playerColor;
+
+
+    
     public enum ComputerLevel
     {
         Easy, Normal, Hard
@@ -20,6 +23,14 @@ public class OthelloManager
         get
         {
             return _playerColor;
+        }
+    }
+
+    public bool ShowTimers
+    {
+        get {
+            
+            return PlayAgainstComputer ? false : true;
         }
     }
     public bool SpeedMode
@@ -37,7 +48,7 @@ public class OthelloManager
     {
         get
         {
-            return _useHints;
+            return ReversoPlayerPrefs.IsHintsOn();
         }
         set
         {
@@ -55,7 +66,7 @@ public class OthelloManager
 
     }
 
-    private static OthelloManager _instance;
+ 
     public static OthelloManager Instance
     {
         get
@@ -67,17 +78,14 @@ public class OthelloManager
             return _instance;
         }
     }
-    private bool _online = false;
+    private bool _playingOnline = false;
     public bool PlayingOnline
     {
         get
         {
-            return _online;
+            return _playingOnline;
         }
-        private set
-        {
-            _online = value;
-        }
+        
     }
 
     private string _opponentName = String.Empty;
@@ -103,7 +111,7 @@ public class OthelloManager
     public static void StartVersus()
     {
         _instance = new OthelloManager();
-
+        _instance._playingOnline = false;
         _instance._playAgainstComputer = false;
         StartGame();
     }
@@ -111,6 +119,7 @@ public class OthelloManager
     public static void StartComputer()
     {
         _instance = new OthelloManager();
+        _instance._playingOnline = false;
         _instance._playAgainstComputer = true;
         StartGame();
     }
@@ -118,8 +127,10 @@ public class OthelloManager
     {
 
         _instance = new OthelloManager();
-        _instance.PlayingOnline = true;
+        _instance._playingOnline = true;
+        _instance._playAgainstComputer = false;
         _instance._opponentName = opponentName;
+
         if (thisPlayerStarts)
         {
             _instance._playerColor = Othello.PlayerColor.White;

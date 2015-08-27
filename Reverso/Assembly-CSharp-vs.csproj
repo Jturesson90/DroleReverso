@@ -46,6 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AchievmentTester.cs" />
+     <Compile Include="Assets\Gamestrap UI\Effects\GradientEffect.cs" />
+     <Compile Include="Assets\Gamestrap UI\Effects\ShadowEffect.cs" />
+     <Compile Include="Assets\Gamestrap UI\Helper Scripts\ButtonShowHide.cs" />
+     <Compile Include="Assets\Gamestrap UI\Helper Scripts\ToggleButtonIcon.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\Achievement.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\CommonTypes.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\DummyClient.cs" />
@@ -191,6 +196,8 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\NearbyConnectionClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
+     <Compile Include="Assets\OptionsPanelEvents.cs" />
+     <Compile Include="Assets\Scripts\AchievementsManager.cs" />
      <Compile Include="Assets\Scripts\CantMove.cs" />
      <Compile Include="Assets\Scripts\DebugOSD.cs" />
      <Compile Include="Assets\Scripts\ExitApplication.cs" />
@@ -198,6 +205,7 @@
      <Compile Include="Assets\Scripts\FitBoardToScreen.cs" />
      <Compile Include="Assets\Scripts\GameBoard.cs" />
      <Compile Include="Assets\Scripts\InvitationManager.cs" />
+     <Compile Include="Assets\Scripts\LevelSwitcher.cs" />
      <Compile Include="Assets\Scripts\MenuPanels\InvitationEvents.cs" />
      <Compile Include="Assets\Scripts\MenuPanels\MainMenuEvents.cs" />
      <Compile Include="Assets\Scripts\MenuPanels\NavigationUtil.cs" />
@@ -210,6 +218,9 @@
      <Compile Include="Assets\Scripts\OthelloLogics\OthelloRules.cs" />
      <Compile Include="Assets\Scripts\ReversoGooglePlay.cs" />
      <Compile Include="Assets\Scripts\ReversoPlayerPrefs.cs" />
+     <Compile Include="Assets\Scripts\SplashScript.cs" />
+     <Compile Include="Assets\Scripts\Timer.cs" />
+     <None Include="Assets\Gamestrap UI\Fonts\ubuntu\UBUNTU FONT LICENCE.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mn-rMN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-zh-rTW\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-th\common_strings.xml" />
@@ -223,6 +234,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-sk\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\admob_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-de\common_strings.xml" />
+     <None Include="Assets\Gamestrap UI\Fonts\Bebas\Flat-it License.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\drawable\common_signin_btn_icon_dark.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mr-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-pt\common_strings.xml" />
@@ -264,6 +276,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-vi\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mk-rMK\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ro\common_strings.xml" />
+     <None Include="Assets\Gamestrap UI\Fonts\Lato\SIL Open Font License.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-pa-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-cs\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\wallet_colors.xml" />

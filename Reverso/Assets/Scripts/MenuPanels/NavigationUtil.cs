@@ -28,14 +28,21 @@ public static class NavigationUtil
         {
             Debug.Log("Showing MainMenu!");
             mgr.OpenMainMenuPanel();
-            
+
         }
         else
         {
             Debug.LogWarning("PanelMgr script missing!");
         }
     }
-
+    public static void OnBackbuttonPressedInMenu()
+    {
+        PanelMgr mgr = NavigationUtil.PanelMgr;
+        if (mgr != null)
+        {
+            mgr.OnBackbuttonPressenInMenu();
+        }
+    }
     public static void ShowPlayingPanel()
     {
         PanelMgr mgr = NavigationUtil.PanelMgr;
@@ -50,7 +57,19 @@ public static class NavigationUtil
         }
     }
 
-
+    public static void ShowOptionsPanel()
+    {
+        PanelMgr mgr = NavigationUtil.PanelMgr;
+        if (mgr != null)
+        {
+            Debug.Log("Showing Options Panel!");
+            mgr.OpenOptionsPanel();
+        }
+        else
+        {
+            Debug.Log("PanelMgr script Missing");
+        }
+    }
     public static void ShowInvitationPanel()
     {
         PanelMgr mgr = NavigationUtil.PanelMgr;

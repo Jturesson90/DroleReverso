@@ -46,6 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Gamestrap UI\Editor\GamestrapHelper.cs" />
+     <Compile Include="Assets\Gamestrap UI\Editor\GamestrapUI.cs" />
+     <Compile Include="Assets\Gamestrap UI\Editor\GamestrapUIPrefabs.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\CocoaPodHelper.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
@@ -67,6 +70,7 @@
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Sections.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Serializer.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
+     <None Include="Assets\Gamestrap UI\Fonts\ubuntu\UBUNTU FONT LICENCE.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mn-rMN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-zh-rTW\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-th\common_strings.xml" />
@@ -80,6 +84,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-sk\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\admob_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-de\common_strings.xml" />
+     <None Include="Assets\Gamestrap UI\Fonts\Bebas\Flat-it License.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\drawable\common_signin_btn_icon_dark.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mr-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-pt\common_strings.xml" />
@@ -121,6 +126,7 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-vi\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-mk-rMK\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-ro\common_strings.xml" />
+     <None Include="Assets\Gamestrap UI\Fonts\Lato\SIL Open Font License.txt" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-pa-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-cs\common_strings.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\wallet_colors.xml" />

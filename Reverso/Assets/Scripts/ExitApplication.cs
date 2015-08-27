@@ -41,7 +41,7 @@ public class ExitApplication : MonoBehaviour
             }
             else
             {
-                Application.Quit();
+                NavigationUtil.OnBackbuttonPressedInMenu();
             }
 
         }

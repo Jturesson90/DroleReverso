@@ -33,5 +33,12 @@ public static class OthelloPieceExtension
         }
         return bricks;
     }
+    public static string ToMinutesAndSeconds(this float time)
+    {
+        float minutes = Mathf.Floor(time / 60f);
+        float seconds = Mathf.Floor(time - minutes * 60);
+
+        return string.Format("{0:0}:{1:00}", minutes, seconds);
+    }
 
 }

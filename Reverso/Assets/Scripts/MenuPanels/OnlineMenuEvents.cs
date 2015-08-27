@@ -43,7 +43,7 @@ public class OnlineMenuEvents : MonoBehaviour
                 {
                     //reset the timer, we can stay here for a long time.
                     mStatusMsg = null;
-                    ShowStatus("Waiting for opponents...", false);
+                    ShowStatus("Waiting for opponent...", false);
                 }
                 break;
             case ReversoGooglePlay.GameState.SetupFailed:

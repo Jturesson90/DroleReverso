@@ -5,11 +5,11 @@ using System;
 
 public class GameBoard : MonoBehaviour
 {
-
+    public GameObject rotateCanvas;
     public GameObject gameBoard;
     public GameObject opponentName;
     public GameObject brick;
-    public GameObject myScoreText, opponentScoreText;
+    public GameObject blacksScoreText, whitesScoreText;
 
     public Color32 blackTextColor;
     public Color32 whiteTextColor;
@@ -20,8 +20,8 @@ public class GameBoard : MonoBehaviour
     public GameObject whiteArrow;
     public GameObject blackArrow;
 
-    private Text whiteSpeedModeText;
-    private Text blackSpeedModeText;
+    public Text whiteTimeLeftText;
+    public Text blackTimeLeftText;
 
 
     float timer = 0.5f;
@@ -41,15 +41,22 @@ public class GameBoard : MonoBehaviour
 
 
 
-        whiteSpeedModeText = GameObject.Find("WhiteSpeedModeText").GetComponent<Text>();
-        whiteSpeedModeText.gameObject.SetActive(false);
-        blackSpeedModeText = GameObject.Find("BlackSpeedModeText").GetComponent<Text>();
-        blackSpeedModeText.gameObject.SetActive(false);
+
+        whiteTimeLeftText.gameObject.SetActive(false);
+        blackTimeLeftText.gameObject.SetActive(false);
     }
     void Start()
     {
         CheckPlayerColor();
         Screen.sleepTimeout = (int)SleepTimeout.NeverSleep;
+        if (OthelloManager.Instance.ShowTimers)
+        {
+            ActivateTimers();
+        }
+        else
+        {
+            DeactiveTimers();
+        }
     }
 
     private void CheckPlayerColor()
@@ -57,7 +64,8 @@ public class GameBoard : MonoBehaviour
         if (OthelloManager.Instance.PlayAgainstComputer)
         {
             SetOpponentName("Computer");
-            opponentScoreText.SetActive(false);
+            DeactiveOpponentTimeText();
+
             return;
         }
         if (OthelloManager.Instance.PlayingOnline)
@@ -65,31 +73,33 @@ public class GameBoard : MonoBehaviour
             print("NU BLEV DET FEEEL!");
             if (OthelloManager.Instance.PlayerColor == Othello.PlayerColor.White)
             {
-                
+
             }
             else
             {
                 gameBoard.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
-                SwapTextScoreColors();
+                rotateCanvas.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
             }
-            opponentScoreText.SetActive(false);
+
+
+            DeactiveOpponentTimeText();
             SetOpponentName(OthelloManager.Instance.OpponentName);
         }
+
+    }
+    private void DeactiveOpponentTimeText()
+    {
+        whitesScoreText.SetActive(OthelloManager.Instance.PlayerIsWhite() ? true : false);
+        blacksScoreText.SetActive(OthelloManager.Instance.PlayerIsWhite() ? false : true);
 
     }
     private void SetOpponentName(string name)
     {
         opponentName.SetActive(true);
         opponentName.GetComponent<Text>().text = name;
+        opponentName.GetComponent<Text>().color = OthelloManager.Instance.PlayerIsWhite() ? whiteTextColor : blackTextColor;
     }
-    private void SwapTextScoreColors()
-    {
-        opponentName.GetComponent<Text>().color = blackTextColor;
-        whiteTextWhiteSide.color = whiteTextColor;
-        whiteTextBlackSide.color = blackTextColor;
-        blackTextWhiteSide.color = whiteTextColor;
-        blackTextBlackSide.color = blackTextColor;
-    }
+
     Transform selected;
     void Update()
     {
@@ -130,29 +140,20 @@ public class GameBoard : MonoBehaviour
         }
 
     }
-
-    public void UpdateTime(float time)
+    void FixedUpdate()
     {
-
-        if (Othello.CURRENT_PLAYER == Othello.PlayerColor.White)
-        {
-
-            blackSpeedModeText.gameObject.SetActive(false);
-            whiteSpeedModeText.gameObject.SetActive(true);
-            whiteSpeedModeText.text = time.ToString("0");
-        }
-        else
-        {
-            whiteSpeedModeText.gameObject.SetActive(false);
-            blackSpeedModeText.gameObject.SetActive(true);
-            blackSpeedModeText.text = time.ToString("0");
-        }
-
+        whiteTimeLeftText.text = Timer.Instance.WhiteTimer.ToMinutesAndSeconds();
+        blackTimeLeftText.text = Timer.Instance.BlackTimer.ToMinutesAndSeconds();
+    }
+    public void ActivateTimers()
+    {
+        blackTimeLeftText.gameObject.SetActive(true);
+        whiteTimeLeftText.gameObject.SetActive(true);
     }
     public void DeactiveTimers()
     {
-        whiteSpeedModeText.gameObject.SetActive(false);
-        blackSpeedModeText.gameObject.SetActive(false);
+        whiteTimeLeftText.gameObject.SetActive(false);
+        blackTimeLeftText.gameObject.SetActive(false);
     }
     void CastUpRay()
     {
@@ -264,25 +265,18 @@ public class GameBoard : MonoBehaviour
     {
         int blacks = 0;
         int whites = 0;
-        int sumLeft = 64;
         foreach (OthelloPiece i in bricks)
         {
             if (i.brickColor == BrickColor.Black)
             {
                 blacks++;
-                sumLeft--;
             }
             else if (i.brickColor == BrickColor.White)
             {
                 whites++;
-                sumLeft--;
             }
         }
         UpdateLabels(blacks, whites);
-        if (sumLeft <= 0)
-        {
-            //Application.LoadLevel (Application.loadedLevel);
-        }
 
 
     }
@@ -295,19 +289,6 @@ public class GameBoard : MonoBehaviour
             UpdateWhiteSideLabels(blacks, whites);
             return;
         }
-
-
-        //TODO ONLINE 
-        /*
-        * if(ReversoGooglePlay.PlayerIsBlack)
-        * {
-        *   UpdateBlackSideLabels(blacks,whites) 
-        * }
-        * else
-        * {
-        *   UpdateWhiteSideLabels(blacks, whites)
-        * }
-        */
     }
     private void UpdateBlackSideLabels(int blacks, int whites)
     {

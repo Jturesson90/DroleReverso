@@ -17,11 +17,10 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
     private static ReversoGooglePlay _instance;
     private string mMyParticipantId = "";
     private string _opponentName;
-    float _roomSetupStartTime = 0.0f;
 
     private ReversoGooglePlay()
     {
-        _roomSetupStartTime = Time.time;
+
     }
     public string OpponentName
     {
@@ -57,7 +56,7 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
     }
 
 
- 
+
 
     private bool showingWaitingRoom = false;
     public void OnRoomSetupProgress(float percent)
@@ -151,7 +150,25 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
 
     public void OnRealTimeMessageReceived(bool isReliable, string senderId, byte[] data)
     {
-        GameObject.Find("Othello").GetComponent<Othello>().OnOnlineRecievedData(data);
+        if (data[0] == (byte)'l')
+        {
+            GameObject.Find("Othello").GetComponent<Othello>().OpponentLost();
+        }
+        else if (data[0] == (byte)'t')
+        {
+            if (OthelloManager.Instance.PlayerColor == Othello.PlayerColor.White)
+            {
+                Timer.Instance.BlackTimer = (float)data[1];
+            }
+            else
+            {
+                Timer.Instance.WhiteTimer = (float)data[2];
+            }
+        }
+        else
+        {
+            GameObject.Find("Othello").GetComponent<Othello>().OnOnlineRecievedData(data);
+        }
     }
 
     public static void AcceptFromInbox()
@@ -160,7 +177,7 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
         PlayGamesPlatform.Instance.RealTime.AcceptFromInbox(_instance);
     }
 
-    internal void CleanUp()
+    public void CleanUp()
     {
         PlayGamesPlatform.Instance.RealTime.LeaveRoom();
         //TODO Maybe back to Main menu here
@@ -203,17 +220,35 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
 
         return opponent;
     }
-    byte[] _othelloPacket;
 
+    byte[] _lostPacket = new byte[1];
+    public void BroadcastILost()
+    {
+        _lostPacket[0] = (byte)'l';
+        PlayGamesPlatform.Instance.RealTime.SendMessageToAll(true, _lostPacket);
+    }
+    byte[] _timePacket = new byte[3];
+    public void BroadcastMyTime()
+    {
+        _timePacket[0] = (byte)'t';
+
+        _timePacket[1] = (byte)Timer.Instance.BlackTimer;
+        _timePacket[2] = (byte)Timer.Instance.WhiteTimer;
+        PlayGamesPlatform.Instance.RealTime.SendMessageToAll(true, _timePacket);
+    }
+    byte[] _othelloPacket;
     public void BroadcastMyTurn(OthelloPiece[,] bricks, Othello.PlayerColor currentPlayerColor)
     {
         _othelloPacket = bricks.ToByteArray();
+
+        BroadcastMyTime();
         PlayGamesPlatform.Instance.RealTime.SendMessageToAll(true, _othelloPacket);
     }
     public void OnGameOver()
     {
+
         _gameState = GameState.Finished;
-        
+
     }
-    
+
 }

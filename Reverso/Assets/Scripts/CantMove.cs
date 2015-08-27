@@ -77,6 +77,31 @@ public class CantMove : MonoBehaviour
         cantMoveText.text = endText;
         anim.SetTrigger(TRIGGER_SWIPE_IN);
     }
+
+    public void OutOfTimeWin(Othello.PlayerColor looser)
+    {
+        string winText = "Congratulations, ";
+        print("Looser! " + looser);
+        if (OthelloManager.Instance.PlayingOnline)
+        {
+            bool isWinner = looser == OthelloManager.Instance.PlayerColor ? false : true;
+
+            winText = isWinner ? "Congratulations, you won!!" : "You lost!";
+        }
+        else
+        {
+            if (looser == Othello.PlayerColor.White)
+            {
+                winText += BlackWon();
+            }
+            else
+            {
+                winText += WhiteWon();
+            }
+        }
+        cantMoveText.text = winText;
+        anim.SetTrigger(TRIGGER_SWIPE_IN);
+    }
     public void NoOneCanMove(OthelloPiece[,] bricks)
     {
         print("NoOneCanMove");
@@ -127,26 +152,38 @@ public class CantMove : MonoBehaviour
         {
             if (whites > blacks)
             {
-                winText += "White!";
-                RotateToWhite();
+                winText += WhiteWon();
             }
             else if (blacks > whites)
             {
-                winText += "Black!";
-                RotateToBlack();
+                winText += BlackWon();
             }
             else
             {
-                RotateToWhite();
-                winText = "DRAW!";
+                winText = Draw();
             }
         }
         cantMoveText.text = winText;
         anim.SetTrigger(TRIGGER_SWIPE_IN);
     }
-    public void OKPressed()
+    private string WhiteWon()
+    {
+        RotateToWhite();
+        return "White!";
+    }
+    private string BlackWon()
     {
 
+        RotateToBlack();
+        return "Black!";
+    }
+    private string Draw()
+    {
+        RotateToWhite();
+        return "DRAW!";
+    }
+    public void OKPressed()
+    {
         anim.SetTrigger(TRIGGER_SWIPE_OUT);
     }
     public void AnimationSwipeOutCallback()

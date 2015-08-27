@@ -113,6 +113,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Gamestrap UI\Editor\GamestrapHelper.cs" />
+    <Compile Include="Assets\Gamestrap UI\Editor\GamestrapUI.cs" />
+    <Compile Include="Assets\Gamestrap UI\Editor\GamestrapUIPrefabs.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\CocoaPodHelper.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
@@ -136,6 +139,9 @@
     <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Gamestrap UI\Fonts\Bebas\Flat-it License.txt" />
+    <None Include="Assets\Gamestrap UI\Fonts\Lato\SIL Open Font License.txt" />
+    <None Include="Assets\Gamestrap UI\Fonts\ubuntu\UBUNTU FONT LICENCE.txt" />
     <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />

@@ -52,6 +52,7 @@ public class GameBoard : MonoBehaviour
         if (OthelloManager.Instance.ShowTimers)
         {
             ActivateTimers();
+            FixOnlineOpponentTimerRotation();
         }
         else
         {
@@ -299,5 +300,19 @@ public class GameBoard : MonoBehaviour
     {
         whiteTextWhiteSide.text = "Whites - " + whites;
         blackTextWhiteSide.text = blacks + " - Blacks";
+    }
+
+    private void FixOnlineOpponentTimerRotation()
+    {
+        if (OthelloManager.Instance.PlayingOnline)
+        {
+            if (OthelloManager.Instance.PlayerColor == Othello.PlayerColor.White)
+            {
+                blackTimeLeftText.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+            }
+            else {
+                whiteTimeLeftText.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
+            }
+        }
     }
 }

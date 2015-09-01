@@ -101,6 +101,7 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
     {
         _instance = new ReversoGooglePlay();
         PlayGamesPlatform.Instance.RealTime.AcceptInvitation(invitationId, _instance);
+        
     }
 
     public void OnLeftRoom()

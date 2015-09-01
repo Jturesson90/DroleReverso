@@ -17,7 +17,7 @@ public class AchievementsManager
     {
         get
         {
-            Debug.Log("instance");
+            Debug.Log("getting instance");
             if (_instance == null)
             {
                 Debug.Log("instance is null");
@@ -41,6 +41,7 @@ public class AchievementsManager
 
     public void LocalGameEnded()
     {
+        Debug.Log("LOCAL GAME ENDED!");
         IncrementAchievement(ACHIEVEMENT_2PLAYER_WIN_10);
     }
 
@@ -50,6 +51,7 @@ public class AchievementsManager
     }
     public void EarlyWin()
     {
+        Debug.Log("EARLY Win");
         UnlockAchievement(ACHIEVEMENT_EARLY_WIN);
     }
     private void UnlockAchievement(string id)

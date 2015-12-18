@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
     
-public enum PaletteType { Analogous, Triadic, Complement, SplitComplement, Monochromatic }
+public enum SchemeType { Analogous, Triadic, Complement, SplitComplement, Monochromatic }
 
 /// <summary>
 /// Methods that help Gamestrap UI such as color conversion, generation and getting Unity's gameobjects in the scene.
@@ -21,30 +21,30 @@ public class GamestrapHelper
     public static Vector3 RGBtoHSV(Color rgbColor)
     {
         float h, s, v;
-        EditorGUIUtility.RGBToHSV(rgbColor,out h, out s, out v);
+        Color.RGBToHSV(rgbColor,out h, out s, out v);
         return new Vector3(h * 360, s * 255, v * 255);
     }
 
     public static Color HSVtoRGB(Vector3 hsvColor)
     {
-        return EditorGUIUtility.HSVToRGB(hsvColor.x/360f, hsvColor.y/255f, hsvColor.z/255f);
+        return Color.HSVToRGB(hsvColor.x/360f, hsvColor.y/255f, hsvColor.z/255f);
     }
     #endregion
 
     #region Palette Color Generator Methods
-    public static Color[] GetColorPalette(Color mainColor, PaletteType type)
+    public static Color[] GetColorPalette(Color mainColor, SchemeType type)
     {
         switch (type)
         {
-            case PaletteType.Monochromatic:
+            case SchemeType.Monochromatic:
                 return GetColorPaletteMonochromatic(mainColor);
-            case PaletteType.Analogous:
+            case SchemeType.Analogous:
                 return GetColorPaletteAnalogous(mainColor,30f,4);
-            case PaletteType.Triadic:
+            case SchemeType.Triadic:
                 return GetColorPaletteAngleDiff(mainColor, 120f);
-            case PaletteType.SplitComplement:
+            case SchemeType.SplitComplement:
                 return GetColorPaletteAngleDiff(mainColor, 150f);
-            case PaletteType.Complement:
+            case SchemeType.Complement:
                 return GetColorPaletteComplement(mainColor);
         }
         return null;

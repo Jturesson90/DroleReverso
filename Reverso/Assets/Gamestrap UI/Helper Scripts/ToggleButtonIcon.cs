@@ -1,33 +1,32 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using System;
+using System.Collections;
 
 [RequireComponent(typeof(Image))]
-[RequireComponent(typeof(Button))]
+[RequireComponent(typeof(Toggle))]
 public class ToggleButtonIcon : MonoBehaviour {
 
     public Sprite onIcon;
     public Sprite offIcon;
-    public bool initialState;
-    private bool on;
+    private Toggle toggleButton;
 
     void Start()
     {
         // This automatically registers the event click on the button component
-        GetComponent<Button>().onClick.AddListener(() => { Click(); });
-        on = initialState;
+        toggleButton = GetComponent<Toggle>();
+        toggleButton.onValueChanged.AddListener(Click);
         SetIcon();
     }
 
-    public void Click()
+    public void Click(bool newValue)
     {
-        on = !on;
         SetIcon();
     }
 
     private void SetIcon()
     {
-        if (on)
+        if (toggleButton.isOn)
         {
             GetComponent<Image>().sprite = onIcon;
         }

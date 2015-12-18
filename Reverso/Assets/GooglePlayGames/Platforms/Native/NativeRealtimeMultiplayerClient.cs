@@ -39,6 +39,11 @@ namespace GooglePlayGames.Native
             mNativeClient = Misc.CheckNotNull(nativeClient);
             mRealtimeManager = Misc.CheckNotNull(manager);
             mCurrentSession = GetTerminatedSession();
+
+            // register callback for when the application pauses.  OnPause
+            // will disconnect the client, we need to leave the room manually
+            // the disconnection does not trigger and events.
+            PlayGamesHelperObject.AddPauseCallback(HandleAppPausing);
         }
 
         private RoomSession GetTerminatedSession()
@@ -111,6 +116,16 @@ namespace GooglePlayGames.Native
                     session.OnRoomStatusChanged(room));
         }
 
+        private void HandleAppPausing(bool paused)
+        {
+            if (paused)
+            {
+                Logger.d("Application is pausing, which disconnects the RTMP " +
+                    " client.  Leaving room.");
+                LeaveRoom();
+            }
+        }
+
         public void CreateWithInvitationScreen(uint minOpponents, uint maxOppponents, uint variant,
                                            RealTimeMultiplayerListener listener)
         {
@@ -129,9 +144,11 @@ namespace GooglePlayGames.Native
                 // current room.
                 mCurrentSession = newRoom;
 
+                mCurrentSession.ShowingUI = true;
                 mRealtimeManager.ShowPlayerSelectUI(minOpponents, maxOppponents, true,
                     response =>
                     {
+                        mCurrentSession.ShowingUI = false;
                         if (response.Status() != Status.UIStatus.VALID)
                         {
                             Logger.d("User did not complete invitation screen.");
@@ -139,10 +156,12 @@ namespace GooglePlayGames.Native
                             return;
                         }
 
-
-                        mCurrentSession.MinPlayersToStart = 
-                            response.MinimumAutomatchingPlayers() + (uint)response.Count()
-                        // plus self
+                        // the min number to start is the number of automatched
+                        // plus the number of named invitations
+                        // plus the local player.
+                        mCurrentSession.MinPlayersToStart =
+                            response.MinimumAutomatchingPlayers() +
+                            (uint)response.Count()
                             + 1;
 
                         using (var configBuilder = RealtimeRoomConfigBuilder.Create())
@@ -171,6 +190,29 @@ namespace GooglePlayGames.Native
                 mCurrentSession.ShowWaitingRoomUI();
             }
         }
+            
+        public void GetAllInvitations(Action<Invitation[]> callback)
+        {
+            mRealtimeManager.FetchInvitations((response) =>
+                {
+                    if (!response.RequestSucceeded())
+                    {
+                        Logger.e("Couldn't load invitations.");
+                        callback(new Invitation[0]);
+                        return;
+                    }
+
+                    List<Invitation> invites = new List<Invitation>();
+                    foreach (var invitation in response.Invitations())
+                    {
+                        using (invitation)
+                        {
+                            invites.Add(invitation.AsInvitation());
+                        }
+                    }
+                    callback(invites.ToArray());
+                });
+        }
 
         public void AcceptFromInbox(RealTimeMultiplayerListener listener)
         {
@@ -188,9 +230,11 @@ namespace GooglePlayGames.Native
                 // The user accepted an invitation from the inbox, this is now the current room.
                 mCurrentSession = newRoom;
 
+                mCurrentSession.ShowingUI = true;
                 mRealtimeManager.ShowRoomInboxUI(
                     response =>
                     {
+                        mCurrentSession.ShowingUI = false;
                         if (response.ResponseStatus() != Status.UIStatus.VALID)
                         {
                             Logger.d("User did not complete invitation screen.");
@@ -214,6 +258,7 @@ namespace GooglePlayGames.Native
                                         using (invitation)
                                         {
                                             newRoom.HandleRoomResponse(acceptResponse);
+                                            newRoom.SetInvitation(invitation.AsInvitation());
                                         }
                                     }));
                         }
@@ -251,9 +296,8 @@ namespace GooglePlayGames.Native
                             {
                                 if (invitation.Id().Equals(invitationId))
                                 {
-                                   
-                                    mCurrentSession.MinPlayersToStart = 
-                                        invitation.AutomatchingSlots() + 
+                                    mCurrentSession.MinPlayersToStart =
+                                        invitation.AutomatchingSlots() +
                                         invitation.ParticipantCount();
                                     Logger.d("Setting MinPlayersToStart with invitation to : " +
                                         mCurrentSession.MinPlayersToStart);
@@ -273,6 +317,11 @@ namespace GooglePlayGames.Native
                         newRoom.LeaveRoom();
                     });
             }
+        }
+
+        public Invitation GetInvitation()
+        {
+            return mCurrentSession.GetInvitation();
         }
 
         public void LeaveRoom()
@@ -402,6 +451,10 @@ namespace GooglePlayGames.Native
             private volatile State mState;
             private volatile bool mStillPreRoomCreation;
 
+            Invitation mInvitation;
+
+            private volatile bool mShowingUI;
+
             private uint mMinPlayersToStart;
 
             internal RoomSession(RealtimeManager manager, RealTimeMultiplayerListener listener)
@@ -413,13 +466,25 @@ namespace GooglePlayGames.Native
                 mStillPreRoomCreation = true;
             }
 
+            internal bool ShowingUI
+            {
+                get
+                {
+                    return mShowingUI;
+                }
+                set
+                {
+                    mShowingUI = value;
+                }
+            }
+
             internal uint MinPlayersToStart
             {
                 get
                 {
                     return mMinPlayersToStart;
                 }
-                set 
+                set
                 {
                     mMinPlayersToStart = value;
                 }
@@ -438,6 +503,16 @@ namespace GooglePlayGames.Native
             internal string SelfPlayerId()
             {
                 return mCurrentPlayerId;
+            }
+
+            public void SetInvitation(Invitation invitation)
+            {
+                mInvitation = invitation;
+            }
+
+            public Invitation GetInvitation()
+            {
+                return mInvitation;
             }
 
             internal OnGameThreadForwardingListener OnGameThreadListener()
@@ -463,10 +538,18 @@ namespace GooglePlayGames.Native
 
             internal void LeaveRoom()
             {
-                lock (mLifecycleLock)
+                if (!ShowingUI)
                 {
-                    mState.LeaveRoom();
+                    lock (mLifecycleLock)
+                    {
+                        mState.LeaveRoom();
+                    }
                 }
+                else
+                {
+                    Logger.d("Not leaving room since showing UI");
+                }
+                    
             }
 
             internal void ShowWaitingRoomUI()
@@ -529,6 +612,11 @@ namespace GooglePlayGames.Native
                 }
             }
 
+            /// <summary>
+            /// Handles the room response.
+            /// </summary>
+            /// <param name="response">Response.</param>
+            /// <param name="invitation">Invitation if accepting an invitation, this is stored in the session, otherwise null</param>
             internal void HandleRoomResponse(RealtimeManager.RealTimeRoomResponse response)
             {
                 lock (mLifecycleLock)
@@ -969,7 +1057,7 @@ namespace GooglePlayGames.Native
             {
                 HashSet<string> newConnectedSet = new HashSet<string>();
 
-                // handle when an invitation is received, so number of total 
+                // handle when an invitation is received, so number of total
                 // participants is not known.
                 if (room.Status() == Types.RealTimeRoomStatus.AUTO_MATCHING ||
                     room.Status() == Types.RealTimeRoomStatus.CONNECTING)
@@ -978,7 +1066,7 @@ namespace GooglePlayGames.Native
                     {
                         mSession.MinPlayersToStart = mSession.MinPlayersToStart +
                         room.ParticipantCount();
-                        mPercentPerParticipant = 
+                        mPercentPerParticipant =
                             (100.0f - InitialPercentComplete) / (float)mSession.MinPlayersToStart;
                     }
                 }
@@ -1063,15 +1151,16 @@ namespace GooglePlayGames.Native
 
             internal override void ShowWaitingRoomUI(uint minimumParticipantsBeforeStarting)
             {
+                mSession.ShowingUI = true;
                 mSession.Manager().ShowWaitingRoomUI(mRoom, minimumParticipantsBeforeStarting, response =>
                     {
+                        mSession.ShowingUI = false;
                         Logger.d("ShowWaitingRoomUI Response: " + response.ResponseStatus());
                         if(response.ResponseStatus() == Status.UIStatus.VALID) {
                             Logger.d("Connecting state ShowWaitingRoomUI: room pcount:" + response.Room().ParticipantCount() +
                                 " status: " + response.Room().Status());
                             if (response.Room().Status() == Types.RealTimeRoomStatus.ACTIVE) {
-                            mSession.EnterState(new ActiveState(response.Room(), mSession));
-                            mSession.OnGameThreadListener().RoomConnected(true);
+                                mSession.EnterState(new ActiveState(response.Room(), mSession));
                             }
                         }
                         else if(response.ResponseStatus() == Status.UIStatus.ERROR_LEFT_ROOM){
@@ -1080,7 +1169,6 @@ namespace GooglePlayGames.Native
                         else {
                             mSession.OnGameThreadListener().RoomSetupProgress(this.mPercentComplete);
                         }
-                       
                     });
             }
         }
@@ -1128,7 +1216,7 @@ namespace GooglePlayGames.Native
                 foreach (var participant in mParticipants.Values)
                 {
                     if (participant.Player != null
-                    && participant.Player.PlayerId.Equals(mSession.SelfPlayerId()))
+                    && participant.Player.id.Equals(mSession.SelfPlayerId()))
                     {
                         return participant;
                     }
@@ -1259,7 +1347,7 @@ namespace GooglePlayGames.Native
 
             internal override void OnStateEntered()
             {
-                mSession.Manager().LeaveRoom(mRoomToLeave, (status) => 
+                mSession.Manager().LeaveRoom(mRoomToLeave, (status) =>
                     { mLeavingCompleteCallback();
                         mSession.EnterState(new ShutdownState(mSession));
                     } );

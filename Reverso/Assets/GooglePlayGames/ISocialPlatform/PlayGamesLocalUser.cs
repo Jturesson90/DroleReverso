@@ -17,8 +17,8 @@
 namespace GooglePlayGames
 {
     using System;
+    using GooglePlayGames.BasicApi;
     using UnityEngine.SocialPlatforms;
-    using UnityEngine;
 
     /// <summary>
     /// Represents the Google Play Games local user.
@@ -27,15 +27,16 @@ namespace GooglePlayGames
     {
         internal PlayGamesPlatform mPlatform;
 
-        private WWW mAvatarUrl;
-        private Texture2D mImage;
+        private string emailAddress;
+
+        private PlayerStats mStats;
 
         internal PlayGamesLocalUser(PlayGamesPlatform plaf)
+            : base("localUser", string.Empty, string.Empty)
         {
             mPlatform = plaf;
-            mAvatarUrl = null;
-            mImage = null;
-
+            emailAddress = null;
+            mStats = null;
         }
 
         /// <summary>
@@ -57,14 +58,11 @@ namespace GooglePlayGames
         }
 
         /// <summary>
-        /// Not implemented. Calls the callback with <c>false</c>.
+        /// Loads all friends of the authenticated user.
         /// </summary>
         public void LoadFriends(Action<bool> callback)
         {
-            if (callback != null)
-            {
-                callback.Invoke(false);
-            }
+            mPlatform.LoadFriends(this, callback);
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace GooglePlayGames
         {
             get
             {
-                return new IUserProfile[0];
+                return mPlatform.GetFriends();
             }
         }
 
@@ -113,7 +111,16 @@ namespace GooglePlayGames
         {
             get
             {
-                return authenticated ? mPlatform.GetUserDisplayName() : string.Empty;
+                string retval = string.Empty;
+                if (authenticated)
+                {
+                    retval = mPlatform.GetUserDisplayName();
+                    if (!base.userName.Equals(retval))
+                    {
+                        ResetIdentity(retval, mPlatform.GetUserId(), mPlatform.GetUserImageUrl());
+                    }
+                }
+                return retval;
             }
         }
 
@@ -127,12 +134,22 @@ namespace GooglePlayGames
         {
             get
             {
-                return authenticated ? mPlatform.GetUserId() : string.Empty;
+                string retval = string.Empty;
+                if (authenticated)
+                {
+                    retval = mPlatform.GetUserId();
+                    if (!base.id.Equals(retval))
+                    {
+                        ResetIdentity(mPlatform.GetUserDisplayName(), retval, mPlatform.GetUserImageUrl());
+                    }
+                }
+                return retval;
             }
         }
 
         /// <summary>
         /// Gets an id token for the user.
+        /// NOTE: This property can only be accessed using the main Unity thread.
         /// </summary>
         /// <returns>
         /// An id token for the user.
@@ -142,6 +159,21 @@ namespace GooglePlayGames
             get
             {
                 return authenticated ? mPlatform.GetIdToken() : string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets an access token for the user.
+        /// NOTE: This property can only be accessed using the main Unity thread.
+        /// </summary>
+        /// <returns>
+        /// An id token for the user.
+        /// </returns>
+        public string accessToken
+        {
+            get
+            {
+                return authenticated ? mPlatform.GetAccessToken() : string.Empty;
             }
         }
 
@@ -168,66 +200,147 @@ namespace GooglePlayGames
             }
         }
 
+
+        public new string AvatarURL
+        {
+            get
+            {
+                string retval = string.Empty;
+                if (authenticated)
+                {
+                    retval = mPlatform.GetUserImageUrl();
+                    if (!base.id.Equals(retval))
+                    {
+                        ResetIdentity(mPlatform.GetUserDisplayName(),
+                            mPlatform.GetUserId(), retval);
+                    }
+                }
+                return retval;
+            }
+        }
+
         /// <summary>
         /// Gets the email of the signed in player.  This is only available
         /// if the web client id is added to the setup (which enables additional
         /// permissions for the application).
+        /// NOTE: This property can only be accessed using the main Unity thread.
         /// </summary>
         /// <value>The email.</value>
         public string Email
         {
             get
             {
-                return authenticated ? mPlatform.GetUserEmail() : string.Empty;
+                // treat null as unitialized, empty as no email.  This can
+                // happen when the web client is not initialized.
+                if (authenticated && string.IsNullOrEmpty(emailAddress))
+                {
+                    emailAddress = mPlatform.GetUserEmail();
+                    emailAddress = emailAddress ?? string.Empty;
+                }
+                return authenticated ? emailAddress : string.Empty;
             }
         }
 
         /// <summary>
-        /// Loads the local user's image from the url.  Loading urls
-        /// is asynchronous so the return from this call is fast,
-        /// the image is returned once it is loaded.  null is returned
-        /// up to that point.
+        /// Gets the player's stats.
         /// </summary>
-        private Texture2D LoadImage()
+        /// <param name="callback">Callback when they are available.</param>
+        public void GetStats(Action<CommonStatusCodes, PlayerStats> callback)
         {
-            string url = mPlatform.GetUserImageUrl();
-
-            // the url can be null if the user does not have an
-            // avatar configured.
-            if (!string.IsNullOrEmpty(url))
+            if (mStats == null)
             {
-                if (mAvatarUrl == null || mAvatarUrl.url != url)
-                {
-                    mAvatarUrl = new WWW(url);
-                    mImage = null;
-                }
-
-                if (mImage != null) {
-                    return mImage;
-                }
-
-                if (mAvatarUrl.isDone)
-                {
-                    mImage =  mAvatarUrl.texture;
-                    return mImage;
-                }
+                mPlatform.GetPlayerStats((rc, stats) =>
+                    {
+                        mStats = stats;
+                        callback(rc, stats);
+                    });
             }
-
-            // if there is no url, always return null.
-            return null;
+            else
+            {
+                // 0 = success
+                callback(CommonStatusCodes.Success, mStats);
+            }
         }
 
         /// <summary>
-        /// Gets the display image of the user.
+        /// Player stats. See https://developers.google.com/games/services/android/stats
         /// </summary>
-        /// <returns>
-        /// null if the user has no avatar, or it has not loaded yet.
-        /// </returns>
-        public new Texture2D image
+        public class PlayerStats
         {
-            get
+            /// <summary>
+            /// The number of in-app purchases.
+            /// </summary>
+            public int NumberOfPurchases
             {
-                return LoadImage();
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The length of the avg sesson in minutes.
+            /// </summary>
+            public float AvgSessonLength
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The days since last played.
+            /// </summary>
+            public int DaysSinceLastPlayed
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The number of sessions based on sign-ins.
+            /// </summary>
+            public int NumOfSessions
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The approximation of sessions percentile for the player,
+            /// given as a decimal value between 0 and 1 (inclusive).
+            /// This value indicates how many sessions the current player has
+            /// played in comparison to the rest of this game's player base.
+            /// Higher numbers indicate that this player has played more sessions.
+            /// A return value  less than zero indicates this value is not available.
+            /// </summary>
+            public float SessPercentile
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The approximate spend percentile of the player,
+            /// given as a decimal value between 0 and 1 (inclusive). This
+            /// value indicates how much the current player has spent in
+            /// comparison to the rest of this game's player base. Higher
+            /// numbers indicate that this player has spent more.
+            /// A return value  less than zero indicates this value is not available.
+            /// </summary>
+            public float SpendPercentile
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// The approximate probability of the player not returning
+            /// to play the game. Higher values indicate that a player
+            /// is less likely to return.
+            /// A return value  less than zero indicates this value is not available.
+            /// </summary>
+            public float ChurnProbability
+            {
+                get;
+                set;
             }
         }
     }

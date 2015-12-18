@@ -42,12 +42,13 @@ namespace GooglePlayGames
             public const string AppId = "Application ID";
             public const string AppIdBlurb = "Enter your application ID below. This is the numeric\n" +
                                              "identifier provided by the Developer Console (for example, 123456789012).";
-           
+
             public const string AppIdError = "The App Id does not appear to be valid. " +
                                              "It must consist solely of digits, usually 10 or more.";
-            
-            public const string WebClientIdTitle = "Oauth Web App Client ID (Optional)";
-            public const string WebAppClientId = "Web App Client ID";
+
+
+            public const string WebClientIdTitle = "Web App Client ID (Optional)";
+            public const string ClientId = "Client ID";
             public const string ClientIdError = "The Client ID does not appear to be valid. " +
                                                 "It should end in .apps.googleusercontent.com.";
             public const string AppIdMismatch = "Web app client ID not associated with this game!";
@@ -96,7 +97,7 @@ namespace GooglePlayGames
         {
             public const string Title = "Google Play Games - Android Configuration";
             public const string Blurb = "To configure Google Play Games in this project,\n" +
-                                        "please enter the information below and click on the Setup button.";
+                                        "go to the Play Game console, then enter the information below and click on the Setup button.";
 
             public const string WebClientIdBlurb = "The web app client ID is needed to access the user's ID token and " +
                 "call other APIs onbehalf of the user." +

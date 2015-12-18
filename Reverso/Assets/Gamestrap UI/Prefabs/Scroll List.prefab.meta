@@ -1,5 +1,8 @@
 fileFormatVersion: 2
 guid: e0bc86465f6d41547bae73b9dec5fbf9
+labels:
+- Ui
+- Menu
 NativeFormatImporter:
   userData: 
   assetBundleName: 

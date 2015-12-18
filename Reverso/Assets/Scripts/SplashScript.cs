@@ -7,7 +7,7 @@ public class SplashScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         ReversoPlayerPrefs.SetShouldLogIn(true);
-        StartCoroutine(WaitForRealSeconds(2f));
+        StartCoroutine(WaitForRealSeconds(1.5f));
        
 
     }
@@ -23,6 +23,6 @@ public class SplashScript : MonoBehaviour {
         {
             yield return null;
         }
-        levelSwitcher.SwitchLevel("GameMenu", 2f);
+        levelSwitcher.SwitchLevel("GameMenu", 1f);
     }
 }

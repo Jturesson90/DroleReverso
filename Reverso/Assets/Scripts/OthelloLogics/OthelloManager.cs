@@ -29,8 +29,8 @@ public class OthelloManager
     public bool ShowTimers
     {
         get {
-            
-            return PlayAgainstComputer ? false : true;
+            if (PlayingOnline) return true;
+            return PlayAgainstComputer ? false : true && ReversoPlayerPrefs.IsTimerOn();
         }
     }
     public bool SpeedMode
@@ -106,6 +106,7 @@ public class OthelloManager
     private static void StartGame()
     {
         Application.LoadLevel("GameScene");
+        
     }
 
     public static void StartVersus()

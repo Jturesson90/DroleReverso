@@ -52,7 +52,7 @@ public class LevelSwitcher : MonoBehaviour
     {
 
         image.CrossFadeAlpha(1f, seconds, true);
-        yield return StartCoroutine(WaitForRealSeconds(seconds-0.5f));
+        yield return StartCoroutine(WaitForRealSeconds(seconds));
         Application.LoadLevel(level);
 
     }
@@ -60,7 +60,7 @@ public class LevelSwitcher : MonoBehaviour
     {
 
         image.CrossFadeAlpha(1f, seconds, true);
-        yield return StartCoroutine(WaitForRealSeconds(seconds-0.5f));
+        yield return StartCoroutine(WaitForRealSeconds(seconds));
         Application.LoadLevel(level);
 
     }

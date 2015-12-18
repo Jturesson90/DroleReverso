@@ -10,6 +10,7 @@ public class MainMenuEvents : MonoBehaviour
     private System.Action<bool> _authCallback;
     private bool _signingIn = false;
 
+    public GameObject[] DeactivateTheseGameObjectsForIOS;
 
     public Toggle hintToggle;
     public Toggle speedModeToggle;
@@ -22,6 +23,12 @@ public class MainMenuEvents : MonoBehaviour
     }
     void Start()
     {
+#if UNITY_IOS
+        foreach (GameObject item in DeactivateTheseGameObjectsForIOS)
+        {
+            item.SetActive(false);
+        }
+#endif
         hintToggle.isOn = ReversoPlayerPrefs.IsHintsOn();
         _authCallback = (bool success) =>
         {

@@ -12,11 +12,7 @@ public class FitBoardToScreen : MonoBehaviour
         if ((float)Screen.width / (float)Screen.height > 0.7f) {
             minWidthToBeSeen = MaxWidthToBeSeen;
         }
-	}
+        Camera.main.orthographicSize = minWidthToBeSeen * Screen.height / Screen.width * 0.5f;
+    }
 	
-	// Update is called once per frame
-	void Update ()
-	{
-		Camera.main.orthographicSize = minWidthToBeSeen * Screen.height / Screen.width * 0.5f;
-	}
 }

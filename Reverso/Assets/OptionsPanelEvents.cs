@@ -8,16 +8,18 @@ using System;
 
 public class OptionsPanelEvents : MonoBehaviour
 {
-    public Toggle hintToggle;
-    public Text signInText;
+    public Toggle HintToggle;
+    public Toggle TimerToggle;
+    public Text SignInText;
     string signIn = "Sign in";
     string signOut = "Sign out";
     public Button AchievementButton;
 
+
     void Start()
     {
-        hintToggle.isOn = ReversoPlayerPrefs.IsHintsOn();
-      
+        HintToggle.isOn = ReversoPlayerPrefs.IsHintsOn();
+        TimerToggle.isOn = ReversoPlayerPrefs.IsTimerOn();
     }
     public void OnAchievementsButton()
     {
@@ -31,7 +33,7 @@ public class OptionsPanelEvents : MonoBehaviour
       
     }
 
-
+    
 
     public void OnGooglePlayPressed()
     {
@@ -44,20 +46,23 @@ public class OptionsPanelEvents : MonoBehaviour
             GameObject.Find("MenuCanvas").GetComponent<MainMenuEvents>().ConfigPlayGames();
         }
     }
-
+    public void OnTimerPressed()
+    {
+        ReversoPlayerPrefs.SetTimer(TimerToggle.isOn);
+    }
     public void OnTogglePressed()
     {
-        ReversoPlayerPrefs.SetHints(hintToggle.isOn);
+        ReversoPlayerPrefs.SetHints(HintToggle.isOn);
     }
     void CheckAuthentication()
     {
         if (PlayGamesPlatform.Instance.IsAuthenticated())
         {
-            signInText.text = signOut;
+            SignInText.text = signOut;
             AchievementButton.interactable = true;
         }
         else {
-            signInText.text = signIn;
+            SignInText.text = signIn;
             AchievementButton.interactable = false;
         }
     }

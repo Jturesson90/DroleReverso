@@ -15,6 +15,8 @@ public class ReversoGooglePlay : RealTimeMultiplayerListener
     public enum GameState { SettingUp, Playing, Finished, SetupFailed, Aborted };
     private GameState _gameState = GameState.SettingUp;
     private static ReversoGooglePlay _instance;
+
+
     private string mMyParticipantId = "";
     private string _opponentName;
 

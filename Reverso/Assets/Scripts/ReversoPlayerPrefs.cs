@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 class ReversoPlayerPrefs : MonoBehaviour
 {
     const string HINTS_KEY = "hints";
     const string LOG_IN_KEY = "login";
+    const string TIMER_KEY = "key";
 
     public static void SetHints(bool hints)
     {
@@ -26,6 +28,12 @@ class ReversoPlayerPrefs : MonoBehaviour
     {
         return PlayerPrefs.GetInt(LOG_IN_KEY, 0) == 1 ? true : false;
     }
+
+    public static bool IsTimerOn()
+    {
+        return PlayerPrefs.GetInt(TIMER_KEY, 0) == 1 ? true : false;
+    }
+
     public static void SetShouldLogIn(bool login)
     {
         if (login)
@@ -38,6 +46,16 @@ class ReversoPlayerPrefs : MonoBehaviour
         }
     }
 
-
+    public static void SetTimer(bool isOn)
+    {
+        if (isOn)
+        {
+            PlayerPrefs.SetInt(TIMER_KEY, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(TIMER_KEY, 0);
+        }
+    }
 }
 

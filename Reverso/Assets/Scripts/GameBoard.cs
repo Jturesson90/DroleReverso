@@ -86,9 +86,11 @@ public class GameBoard : MonoBehaviour
             DeactiveOpponentTimeText();
             SetOpponentName(OthelloManager.Instance.OpponentName);
         }
+        
+        
 
     }
-    private void DeactiveOpponentTimeText()
+    public void DeactiveOpponentTimeText()
     {
         whitesScoreText.SetActive(OthelloManager.Instance.PlayerIsWhite() ? true : false);
         blacksScoreText.SetActive(OthelloManager.Instance.PlayerIsWhite() ? false : true);

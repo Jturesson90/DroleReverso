@@ -16,11 +16,11 @@ public class Othello : MonoBehaviour
     private bool doneFirstMove = false;
     private bool showOutOfTime = true;
     //SpeedMode 
-    public float timeLeft = 180f;
+    public float timeLeft = 30;
 
     bool clickCoolDown = false;
     float clickCoolDownTimer = 1f;
-
+    bool useTimer = false;
     public bool WaitingForSpeedModeCallback = false;
     public enum PlayerColor
     {
@@ -52,8 +52,9 @@ public class Othello : MonoBehaviour
                 GetComponent<OnlinePlayingEvents>().enabled = true;
             }
         }
-        Timer.Instance.BlackTimer = timeLeft;
-        Timer.Instance.WhiteTimer = timeLeft;
+            Timer.Instance.BlackTimer = timeLeft;
+            Timer.Instance.WhiteTimer = timeLeft;
+
     }
 
     void Start()
@@ -209,8 +210,8 @@ public class Othello : MonoBehaviour
             Timer.Instance.WhiteTimer = Mathf.Max(0, Timer.Instance.WhiteTimer);
             if (Timer.Instance.WhiteTimer <= 0f)
             {
-                HandleGameOverDueNoTimeLeft(PlayerColor.White);
-                print("WHITE LOST");
+                MakeRandomMove();
+                print("WHITE no time left");
             }
 
         }
@@ -220,8 +221,8 @@ public class Othello : MonoBehaviour
             Timer.Instance.BlackTimer = Mathf.Max(0, Timer.Instance.BlackTimer);
             if (Timer.Instance.BlackTimer <= 0f)
             {
-                HandleGameOverDueNoTimeLeft(PlayerColor.Black);
-                print("BLACK LOST");
+                MakeRandomMove();
+                print("BLACK LOST no time left");
             }
         }
     }
@@ -359,9 +360,6 @@ public class Othello : MonoBehaviour
                     ReversoGooglePlay.Instance.BroadcastILost();
                 }
             }
-        }else if (!OthelloManager.Instance.PlayAgainstComputer)
-        {
-            AchievementsManager.Instance.LocalGameEnded();
         }
         hasWinner = true;
         cantMove.OutOfTimeWin(pc);
@@ -406,6 +404,10 @@ public class Othello : MonoBehaviour
     {
         CURRENT_PLAYER = CURRENT_PLAYER == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
         gameBoard.CheckArrows(CURRENT_PLAYER);
+        if(!OthelloManager.Instance.PlayAgainstComputer)
+        {
+            ResetTimers();
+        }
 
     }
     public void OnOnlineRecievedData(byte[] onlineData)
@@ -432,17 +434,6 @@ public class Othello : MonoBehaviour
         }
     }
 
-    private void HandleGameOverAchievements()
-    {
-        if (OthelloManager.Instance.PlayingOnline)
-        {
-        }
-        else if (OthelloManager.Instance.PlayAgainstComputer)
-        {
-
-        }
-        else { }
-    }
 
     private PlayerColor GetWinner()
     {
@@ -461,5 +452,9 @@ public class Othello : MonoBehaviour
             }
         }
         return whites > blacks ? PlayerColor.White : PlayerColor.Black;
+    }
+    private void ResetTimers() {
+        Timer.Instance.BlackTimer = timeLeft;
+        Timer.Instance.WhiteTimer = timeLeft;
     }
 }

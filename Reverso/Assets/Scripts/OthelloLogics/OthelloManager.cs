@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class OthelloManager
 {
@@ -13,7 +14,7 @@ public class OthelloManager
     private Othello.PlayerColor _playerColor;
 
 
-    
+
     public enum ComputerLevel
     {
         Easy, Normal, Hard
@@ -28,7 +29,8 @@ public class OthelloManager
 
     public bool ShowTimers
     {
-        get {
+        get
+        {
             if (PlayingOnline) return true;
             return PlayAgainstComputer ? false : true && ReversoPlayerPrefs.IsTimerOn();
         }
@@ -66,7 +68,7 @@ public class OthelloManager
 
     }
 
- 
+
     public static OthelloManager Instance
     {
         get
@@ -74,6 +76,7 @@ public class OthelloManager
             if (_instance == null)
             {
                 _instance = new OthelloManager();
+                ChosenBoard = ReversoPlayerPrefs.GetChosenBoard();
             }
             return _instance;
         }
@@ -85,7 +88,7 @@ public class OthelloManager
         {
             return _playingOnline;
         }
-        
+
     }
 
     private string _opponentName = String.Empty;
@@ -94,6 +97,23 @@ public class OthelloManager
         get
         {
             return _opponentName;
+        }
+    }
+    private static int _chosenBoard = -1;
+    public static int ChosenBoard
+    {
+        get
+        {
+            if (_chosenBoard < 0)
+            {
+                _chosenBoard = ReversoPlayerPrefs.GetChosenBoard();
+                return _chosenBoard;
+            }
+            return _chosenBoard;
+        }
+        set
+        {
+            _chosenBoard = value;
         }
     }
 
@@ -105,8 +125,9 @@ public class OthelloManager
 
     private static void StartGame()
     {
-        Application.LoadLevel("GameScene");
-        
+        //Application.LoadLevel("GameScene");
+        ReversoPlayerPrefs.SetChosenBoard(ChosenBoard);
+        SceneManager.LoadSceneAsync("GameScene");
     }
 
     public static void StartVersus()

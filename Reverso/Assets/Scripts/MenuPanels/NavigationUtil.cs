@@ -20,7 +20,20 @@ public static class NavigationUtil
             return theMgr;
         }
     }
+    public static void ShowThemesPanel()
+    {
+        PanelMgr mgr = NavigationUtil.PanelMgr;
+        if (mgr != null)
+        {
+            Debug.Log("Showing ThemesPanel!");
+            mgr.OpenThemesPanel();
 
+        }
+        else
+        {
+            Debug.LogWarning("PanelMgr script missing!");
+        }
+    }
     public static void ShowMainMenu()
     {
         PanelMgr mgr = NavigationUtil.PanelMgr;
@@ -49,7 +62,7 @@ public static class NavigationUtil
         if (mgr != null)
         {
             Debug.Log("Showing Playing Panel!");
-            mgr.OpenPlayingPanel();
+            mgr.OpenThemesPanel();
         }
         else
         {

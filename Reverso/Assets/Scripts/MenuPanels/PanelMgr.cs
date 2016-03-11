@@ -14,7 +14,7 @@ public class PanelMgr : MonoBehaviour
     public GameObject optionsPanel;
     public GameObject mainMenu;
     public GameObject onlineMenu;
-    public GameObject playingPanel;
+    public GameObject themesPanel;
     public GameObject invitationPanel;
 
     private GameObject currentPanel;
@@ -45,9 +45,9 @@ public class PanelMgr : MonoBehaviour
     }
 
 
-    public void OpenPlayingPanel()
+    public void OpenThemesPanel()
     {
-        OpenPanel(playingPanel);
+		OpenPanel(themesPanel);
 
     }
 

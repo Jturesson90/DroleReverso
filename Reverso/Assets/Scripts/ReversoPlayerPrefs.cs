@@ -7,6 +7,7 @@ class ReversoPlayerPrefs : MonoBehaviour
     const string HINTS_KEY = "hints";
     const string LOG_IN_KEY = "login";
     const string TIMER_KEY = "key";
+    const string CHOSEN_BOARD = "CHOSEN_BOARD";
 
     public static void SetHints(bool hints)
     {
@@ -56,6 +57,14 @@ class ReversoPlayerPrefs : MonoBehaviour
         {
             PlayerPrefs.SetInt(TIMER_KEY, 0);
         }
+    }
+    public static void SetChosenBoard(int id)
+    {
+        PlayerPrefs.SetInt(CHOSEN_BOARD, id);
+    }
+    public static int GetChosenBoard()
+    {
+        return PlayerPrefs.GetInt(CHOSEN_BOARD, 0);
     }
 }
 

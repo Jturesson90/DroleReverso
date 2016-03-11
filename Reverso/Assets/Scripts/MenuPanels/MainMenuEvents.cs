@@ -50,7 +50,7 @@ public class MainMenuEvents : MonoBehaviour
             ConfigPlayGames();
             ReversoPlayerPrefs.SetShouldLogIn(false);
         }
-        
+
 
     }
     void Update()
@@ -112,7 +112,10 @@ public class MainMenuEvents : MonoBehaviour
 
 
 
-
+    public void OnThemesClicked()
+    {
+        NavigationUtil.ShowThemesPanel();
+    }
 
 
 

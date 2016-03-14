@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Assets\AchievmentTester.cs" />
     <Compile Include="Assets\BoardChooser.cs" />
+    <Compile Include="Assets\CloseButton.cs" />
     <Compile Include="Assets\GameBackButton.cs" />
     <Compile Include="Assets\Gamestrap UI\Effects\GradientEffect.cs" />
     <Compile Include="Assets\Gamestrap UI\Effects\ShadowEffect.cs" />

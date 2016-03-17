@@ -6,7 +6,7 @@ using System.Collections;
 // Utility class to navigate between the various panels in the main scene.
 public static class NavigationUtil
 {
-
+    private static bool DEBUG = false;
     private static PanelMgr theMgr;
 
     public static PanelMgr PanelMgr
@@ -25,13 +25,20 @@ public static class NavigationUtil
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing ThemesPanel!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing ThemesPanel!");
+            }
+
             mgr.OpenThemesPanel();
 
         }
         else
         {
-            Debug.LogWarning("PanelMgr script missing!");
+            if (DEBUG)
+            {
+                Debug.LogWarning("PanelMgr script missing!");
+            }
         }
     }
     public static void ShowMainMenu()
@@ -39,13 +46,19 @@ public static class NavigationUtil
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing MainMenu!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing MainMenu!");
+            }
             mgr.OpenMainMenuPanel();
 
         }
         else
         {
-            Debug.LogWarning("PanelMgr script missing!");
+            if (DEBUG)
+            {
+                Debug.LogWarning("PanelMgr script missing!");
+            }
         }
     }
     public static void OnBackbuttonPressedInMenu()
@@ -61,12 +74,18 @@ public static class NavigationUtil
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing Playing Panel!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing Playing Panel!");
+            }
             mgr.OpenThemesPanel();
         }
         else
         {
-            Debug.Log("PanelMgr script missing!");
+            if (DEBUG)
+            {
+                Debug.Log("PanelMgr script missing!");
+            }
         }
     }
 
@@ -75,12 +94,18 @@ public static class NavigationUtil
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing Options Panel!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing Options Panel!");
+            }
             mgr.OpenOptionsPanel();
         }
         else
         {
-            Debug.Log("PanelMgr script Missing");
+            if (DEBUG)
+            {
+                Debug.Log("PanelMgr script Missing");
+            }
         }
     }
     public static void ShowInvitationPanel()
@@ -88,26 +113,41 @@ public static class NavigationUtil
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing Invitation Panel!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing Invitation Panel!");
+            }
             mgr.OpenInvitationPanel();
         }
         else
         {
-            Debug.Log("PanelMgr script Missing");
+            if (DEBUG)
+            {
+                Debug.Log("PanelMgr script Missing");
+            }
         }
     }
     public static void ShowOnlineMenuPanel()
     {
-        Debug.Log("ShowOnlineMenuPanel");
+        if (DEBUG)
+        {
+            Debug.Log("ShowOnlineMenuPanel");
+        }
         PanelMgr mgr = NavigationUtil.PanelMgr;
         if (mgr != null)
         {
-            Debug.Log("Showing OnlineMenu Panel!");
+            if (DEBUG)
+            {
+                Debug.Log("Showing OnlineMenu Panel!");
+            }
             mgr.OpenOnlineMenu();
         }
         else
         {
-            Debug.Log("PanelMgr script Missing");
+            if (DEBUG)
+            {
+                Debug.Log("PanelMgr script Missing");
+            }
         }
     }
 }

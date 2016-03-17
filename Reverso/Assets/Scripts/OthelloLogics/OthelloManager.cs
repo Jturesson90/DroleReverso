@@ -67,7 +67,10 @@ public class OthelloManager
         }
 
     }
-
+    public static bool HasStartedGame
+    {
+        get; set;
+    }
 
     public static OthelloManager Instance
     {
@@ -76,7 +79,6 @@ public class OthelloManager
             if (_instance == null)
             {
                 _instance = new OthelloManager();
-                ChosenBoard = ReversoPlayerPrefs.GetChosenBoard();
             }
             return _instance;
         }
@@ -104,16 +106,13 @@ public class OthelloManager
     {
         get
         {
-            if (_chosenBoard < 0)
-            {
-                _chosenBoard = ReversoPlayerPrefs.GetChosenBoard();
-                return _chosenBoard;
-            }
+            _chosenBoard = ReversoPlayerPrefs.GetChosenBoard();
             return _chosenBoard;
         }
         set
         {
             _chosenBoard = value;
+
         }
     }
 
@@ -125,8 +124,9 @@ public class OthelloManager
 
     private static void StartGame()
     {
-        //Application.LoadLevel("GameScene");
-        ReversoPlayerPrefs.SetChosenBoard(ChosenBoard);
+        //Application.LoadLevel("GameScene")
+        HasStartedGame = true;
+        ReversoPlayerPrefs.SetChosenBoard(_chosenBoard);
         SceneManager.LoadSceneAsync("GameScene");
     }
 

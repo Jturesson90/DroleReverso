@@ -14,6 +14,11 @@ public class MainMenuEvents : MonoBehaviour
 
     public Toggle hintToggle;
     public Toggle speedModeToggle;
+
+    public GameObject[] tweenDown;
+    public GameObject[] tweenUp;
+    public float tweenDuration = 1f;
+    public LeanTweenType tweenType;
     void Awake()
     {
 
@@ -50,7 +55,25 @@ public class MainMenuEvents : MonoBehaviour
             ConfigPlayGames();
             ReversoPlayerPrefs.SetShouldLogIn(false);
         }
+        AnimateUI();
 
+    }
+    void AnimateUI()
+    {
+        foreach (var tween in tweenDown)
+        {
+            var rectT = tween.GetComponent<RectTransform>();
+            var startPosY = rectT.localPosition.y;
+            rectT.anchoredPosition += Vector2.up * 400f;
+            LeanTween.moveLocalY(tween, startPosY, 1f).setEase(tweenType).setDelay(0f);
+        }
+        foreach (var tween in tweenUp)
+        {
+            var rectT = tween.GetComponent<RectTransform>();
+            var startPosY = rectT.localPosition.y;
+            rectT.anchoredPosition -= Vector2.up * 400f;
+            LeanTween.moveLocalY(tween, startPosY, 1f).setEase(tweenType).setDelay(0f);
+        }
 
     }
     void Update()

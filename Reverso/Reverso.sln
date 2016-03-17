@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverso.CSharp.Plugins", "Reverso.CSharp.Plugins.csproj", "{FEA9E30A-237B-0598-9B1B-752221C5F2FF}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverso.CSharp", "Reverso.CSharp.csproj", "{14F7BA8F-49DB-5D07-ABE7-86977FE98877}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverso.CSharp.Editor", "Reverso.CSharp.Editor.csproj", "{A3DC6112-AC6D-9971-24AE-1FADAC7EF488}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEA9E30A-237B-0598-9B1B-752221C5F2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEA9E30A-237B-0598-9B1B-752221C5F2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEA9E30A-237B-0598-9B1B-752221C5F2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEA9E30A-237B-0598-9B1B-752221C5F2FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14F7BA8F-49DB-5D07-ABE7-86977FE98877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14F7BA8F-49DB-5D07-ABE7-86977FE98877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14F7BA8F-49DB-5D07-ABE7-86977FE98877}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -3,54 +3,57 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
 
+[System.Serializable]
 public class ThemeRow : MonoBehaviour
 {
     public const string RADIO_BUTTON = "RADIO_BUTTON";
-    const string REWARD_AD = "REWARD_AD";
+    const string REWARD_AD = "rewardedVideo";
     public Image _image;
     public Text _description;
-    public GameObject _adButton;
+    public Button _adButton;
     public Toggle _radioButton;
-    public ToggleGroup MyToggleGroup;
 
-    public string Description = string.Empty;
     public int ID;
-    public Sprite ImageSprite;
-    public int chosenRadioButton = 0;
-    
+
+    public Color NormalColor;
+
+    [Header("Radio Button Back Circle")]
+    public Image backCircle;
+    private Color _backCircleColorOn;
+    private Color _backCircleColorOff;
+    [Range(0, 1)]
+    public float backCircleGradient;
+    public Image radioBackgroundImage;
+    bool _started = false;
 
     public void SetAdButtonActive(bool active)
     {
         if (active)
         {
-            _adButton.SetActive(true);
-
-            _radioButton.gameObject.SetActive(false);
+            _adButton.gameObject.SetActive(true);
+            _radioButton.interactable = false;
+            // _radioButton.gameObject.SetActive(false);
         }
         else
         {
-            _adButton.SetActive(false);
-            _radioButton.gameObject.SetActive(true);
-            _radioButton.isOn = false;
-            if (!_radioButton.group.AnyTogglesOn() && ID == 0)
-            {
-                _radioButton.isOn = true;
-            }
+            _adButton.gameObject.SetActive(false);
+            _radioButton.interactable = true;
+            //_radioButton.gameObject.SetActive(true);
+
         }
     }
 
     public void OnAdButtonPressed()
     {
+        _adButton.interactable = false;
         ShowRewardedAd();
-        //  SetAdButtonActive(false);
-        // SetShowAdButtonPlayerPref(false);
     }
     // Use this for initialization
-    void Start()
+    public void OnStart()
     {
-
-        if (!_image && !_description && !_adButton && !_radioButton && !MyToggleGroup) return;
-        _radioButton.group = MyToggleGroup;
+        _backCircleColorOn = new Color(NormalColor.r, NormalColor.g, NormalColor.b, backCircleGradient);
+        _backCircleColorOff = new Color(255f, 255f, 255f, backCircleGradient);
+        if (!_image && !_description && !_adButton && !_radioButton) return;
         if (ID == 0)
             SetAdButtonActive(false);
         else
@@ -64,38 +67,58 @@ public class ThemeRow : MonoBehaviour
                 SetAdButtonActive(false);
             }
         }
-        //   _image.sprite = ImageSprite;
-        _description.text = Description;
-        
-
-
-        if (ID == OthelloManager.ChosenBoard)
-        {
-            _radioButton.isOn = true;
-        }
-        else
-        {
-            _radioButton.isOn = false;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        _started = true;
+        SetColorToCircle();
     }
 
 
     public void OnRadioButtonValueChanged(bool val)
     {
+        if (!_started) return;
         if (_radioButton.isOn)
         {
             print(ID + " is On!");
             OthelloManager.ChosenBoard = ID;
+
+
+        }
+        else
+        {
+            var selectable = _radioButton.colors;
+
+
+        }
+        SetColorToCircle();
+        SetRadioButtonNormalColor();
+    }
+    private void SetColorToCircle()
+    {
+        if (_radioButton.isOn)
+        {
+            backCircle.color = _backCircleColorOn;
+
+        }
+        else
+        {
+
+            backCircle.color = _backCircleColorOff;
         }
 
     }
+    private void SetRadioButtonNormalColor()
+    {
+        if (_radioButton.isOn)
+        {
+            radioBackgroundImage.color = NormalColor;
+        }
+        else
+        {
+            Color whiteColorWithAlpha = Color.white;
+            whiteColorWithAlpha.a *= 0.7f;
+            radioBackgroundImage.color = whiteColorWithAlpha;
+        }
 
+    }
     public void SetShowAdButtonPlayerPref(bool val)
     {
         //Visa Annonser sätt till 1
@@ -124,13 +147,16 @@ public class ThemeRow : MonoBehaviour
             var options = new ShowOptions { resultCallback = HandleShowResult };
             Advertisement.Show(REWARD_AD, options);
         }
-#if UNITY_EDITOR
-        HandleShowResult(ShowResult.Finished);
-#endif
+        else
+        {
+            _adButton.interactable = true;
+        }
+
     }
 
     private void HandleShowResult(ShowResult result)
     {
+        _adButton.interactable = true;
         switch (result)
         {
             case ShowResult.Finished:

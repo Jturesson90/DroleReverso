@@ -60,11 +60,15 @@ class ReversoPlayerPrefs : MonoBehaviour
     }
     public static void SetChosenBoard(int id)
     {
+        print("Saving Chosen Board " + id);
         PlayerPrefs.SetInt(CHOSEN_BOARD, id);
     }
     public static int GetChosenBoard()
     {
-        return PlayerPrefs.GetInt(CHOSEN_BOARD, 0);
+        int id = PlayerPrefs.GetInt(CHOSEN_BOARD, 0);
+        print("Getting Chosen Board " + id);
+        return id;
     }
+
 }
 

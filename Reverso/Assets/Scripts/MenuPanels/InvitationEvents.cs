@@ -27,7 +27,7 @@ public class InvitationEvents : MonoBehaviour {
         inv = (inv != null) ? inv : InvitationManager.Instance.Invitation;
         if (inv == null && !processed)
         {
-            Debug.Log("No Invite -- back to main");
+          //  Debug.Log("No Invite -- back to main");
             NavigationUtil.ShowMainMenu();
             return;
         }

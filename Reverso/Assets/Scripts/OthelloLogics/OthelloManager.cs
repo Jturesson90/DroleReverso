@@ -12,13 +12,47 @@ public class OthelloManager
     private bool _playAgainstComputer = false;
     private bool _useHints = true;
     private Othello.PlayerColor _playerColor;
+    private ComputerLevelEnum? _computerLevel;
 
 
-
-    public enum ComputerLevel
+    public enum ComputerLevelEnum
     {
-        Easy, Normal, Hard
+        One, Two, Three, Four, Five
     }
+
+    public ComputerLevelEnum ComputerLevel
+    {
+        get
+        {
+            if (!_computerLevel.HasValue)
+            {
+                _computerLevel = ReversoPlayerPrefs.GetComputerLevel();
+            }
+            return (ComputerLevelEnum)_computerLevel.Value;
+        }
+        set
+        {
+            if (_computerLevel.HasValue)
+            {
+                if (value != _computerLevel)
+                {
+                    ReversoPlayerPrefs.SetComputerLevel((ComputerLevelEnum)value);
+                }
+                _computerLevel = value;
+            }
+            else
+            {
+                _computerLevel = value;
+                ReversoPlayerPrefs.SetComputerLevel((ComputerLevelEnum)_computerLevel);
+            }
+
+
+
+
+        }
+    }
+
+
     public Othello.PlayerColor PlayerColor
     {
         get

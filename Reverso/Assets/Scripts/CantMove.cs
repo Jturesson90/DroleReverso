@@ -150,17 +150,30 @@ public class CantMove : MonoBehaviour
         }
         else
         {
-            if (whites > blacks)
+            if (whiteWon)
             {
                 winText += WhiteWon();
             }
-            else if (blacks > whites)
+            else if (!whiteWon)
             {
                 winText += BlackWon();
             }
             else
             {
                 winText = Draw();
+            }
+        }
+
+        if (OthelloManager.Instance.PlayAgainstComputer)
+        {
+            if (OthelloManager.Instance.PlayerIsWhite() && !whiteWon)
+            {
+                winText = "You lost!";
+            }
+
+            else if (!OthelloManager.Instance.PlayerIsWhite() && whiteWon)
+            {
+                winText = "You lost!";
             }
         }
         cantMoveText.text = winText;

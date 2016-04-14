@@ -17,7 +17,7 @@ public class TweenMenuButtons : MonoBehaviour
 
 
         for (int i = 0; i < children.Count; i++)
-        {
+        { 
             var rectT = children[i].GetComponent<RectTransform>();
             var startPosX = rectT.localPosition.x;
             rectT.anchoredPosition += Vector2.left * 750f;

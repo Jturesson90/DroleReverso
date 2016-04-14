@@ -11,7 +11,7 @@ public class ThemesAdapter : MonoBehaviour
     private RectTransform _rectTransform;
     private ToggleGroup _toggleGroup;
     private float _prefabHeight;
-    private static bool DEBUG = true;
+    private static bool DEBUG = false;
     // Use this for initialization
     void Awake()
     {
@@ -49,6 +49,7 @@ public class ThemesAdapter : MonoBehaviour
             ThemeRow themeRow = themeRowGo.GetComponent<ThemeRow>();
             themeRow._description.text = themeRows[i].Description;
             themeRow._image.sprite = themeRows[i].ImageSprite;
+            themeRow._image.color = themeRows[i].color;
             themeRow._radioButton.group = _toggleGroup;
             _toggleGroup.RegisterToggle(themeRow._radioButton);
 

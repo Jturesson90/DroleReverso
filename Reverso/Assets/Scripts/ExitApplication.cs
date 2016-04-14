@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ExitApplication : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class ExitApplication : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Application.loadedLevelName.Equals("GameScene"))
+            
+            if (SceneManager.GetActiveScene().name.Equals("GameScene"))
             {
                 ShowExitDialog();
             }

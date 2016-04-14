@@ -8,6 +8,8 @@ class ReversoPlayerPrefs : MonoBehaviour
     const string LOG_IN_KEY = "login";
     const string TIMER_KEY = "key";
     const string CHOSEN_BOARD = "CHOSEN_BOARD";
+    const string COMPUTER_LEVEL = "COMPUTER_LEVEL";
+
 
     public static void SetHints(bool hints)
     {
@@ -69,6 +71,18 @@ class ReversoPlayerPrefs : MonoBehaviour
         print("Getting Chosen Board " + id);
         return id;
     }
+    public static void SetComputerLevel(OthelloManager.ComputerLevelEnum computerLevel)
+    {
+        print("Saving Computer level" + computerLevel);
+        PlayerPrefs.SetInt(COMPUTER_LEVEL, (int)computerLevel);
+    }
+    public static OthelloManager.ComputerLevelEnum GetComputerLevel()
+    {
+        OthelloManager.ComputerLevelEnum computerLevel = (OthelloManager.ComputerLevelEnum)PlayerPrefs.GetInt(COMPUTER_LEVEL, 0);
+        print("Getting Computer level " + computerLevel);
+        return computerLevel;
+    }
+
 
 }
 

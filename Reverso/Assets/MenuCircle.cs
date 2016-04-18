@@ -47,7 +47,6 @@ public class MenuCircle : MonoBehaviour
     {
         if (coll.gameObject.name == "CirclesWall")
         {
-            print("New PUSH!");
             Push();
         }
     }

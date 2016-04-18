@@ -77,16 +77,11 @@ public class ThemeRow : MonoBehaviour
         if (!_started) return;
         if (_radioButton.isOn)
         {
-            print(ID + " is On!");
             OthelloManager.ChosenBoard = ID;
-
-
         }
         else
         {
             var selectable = _radioButton.colors;
-
-
         }
         SetColorToCircle();
         SetRadioButtonNormalColor();

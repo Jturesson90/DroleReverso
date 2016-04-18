@@ -5,6 +5,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.Multiplayer;
 using System;
+using System.Linq;
 
 public class OptionsPanelEvents : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class OptionsPanelEvents : MonoBehaviour
     public Button AchievementButton;
 
 
+
+ 
     void Start()
     {
         HintToggle.isOn = ReversoPlayerPrefs.IsHintsOn();
@@ -28,12 +31,13 @@ public class OptionsPanelEvents : MonoBehaviour
             AchievementsManager.Instance.ShowAchievements();
         }
     }
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         CheckAuthentication();
-      
+
     }
 
-    
+
 
     public void OnGooglePlayPressed()
     {
@@ -61,9 +65,12 @@ public class OptionsPanelEvents : MonoBehaviour
             SignInText.text = signOut;
             AchievementButton.interactable = true;
         }
-        else {
+        else
+        {
             SignInText.text = signIn;
             AchievementButton.interactable = false;
         }
     }
+  
+
 }

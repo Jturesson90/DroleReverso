@@ -23,6 +23,7 @@ public class GameBoard : MonoBehaviour
     public Text whiteTimeLeftText;
     public Text blackTimeLeftText;
 
+    public static int BoardWidth = 8;
 
     float timer = 0.5f;
 
@@ -64,14 +65,13 @@ public class GameBoard : MonoBehaviour
     {
         if (OthelloManager.Instance.PlayAgainstComputer)
         {
-            SetOpponentName("Computer");
+            SetOpponentName("Computer " + OthelloManager.Instance.ComputerLevel);
             DeactiveOpponentTimeText();
 
             return;
         }
         if (OthelloManager.Instance.PlayingOnline)
         {
-            print("NU BLEV DET FEEEL!");
             if (OthelloManager.Instance.PlayerColor == Othello.PlayerColor.White)
             {
 
@@ -86,8 +86,8 @@ public class GameBoard : MonoBehaviour
             DeactiveOpponentTimeText();
             SetOpponentName(OthelloManager.Instance.OpponentName);
         }
-        
-        
+
+
 
     }
     public void DeactiveOpponentTimeText()
@@ -227,7 +227,7 @@ public class GameBoard : MonoBehaviour
             {
                 GameObject piece = (GameObject)Instantiate(brick, new Vector3(x, y, -0.4f), Quaternion.identity);
                 piece.transform.parent = transform;
-                OthelloPiece othello = piece.GetComponent<OthelloPiece>();
+                OthelloPiece othello = piece.GetComponentInChildren<OthelloPiece>();
                 othello.brickColor = BrickColor.Empty;
                 othello.x = x;
                 othello.y = y;
@@ -312,7 +312,8 @@ public class GameBoard : MonoBehaviour
             {
                 blackTimeLeftText.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
             }
-            else {
+            else
+            {
                 whiteTimeLeftText.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
             }
         }

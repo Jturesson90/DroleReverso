@@ -30,7 +30,7 @@ public class Othello : MonoBehaviour
     }
 
     public static PlayerColor CURRENT_PLAYER = PlayerColor.White;
-
+    
     public OthelloPiece[,] bricks;
 
 
@@ -59,7 +59,7 @@ public class Othello : MonoBehaviour
 
     void Start()
     {
-
+       // board.Bricks = gameBoard.SetupBoard(bricks);
         bricks = gameBoard.SetupBoard(bricks);
         ShowHints();
     }
@@ -84,14 +84,14 @@ public class Othello : MonoBehaviour
     private void HandleOnLongPressed(OthelloPiece brick)
     {
         ArrayList validDirections;
-        validDirections = OthelloRules.GetValidDirections(bricks, brick);
+        validDirections = OthelloRules.GetValidDirections(bricks, brick, CURRENT_PLAYER);
         if (validDirections.Count > 0)
         {
             for (int i = 0; i < validDirections.Count; i++)
             {
                 OthelloRules.Direction direction = (OthelloRules.Direction)validDirections[i];
                 OthelloPiece nextBrick = OthelloRules.NextBrickInDirection(brick.x, brick.y, direction, bricks);
-                OthelloRules.FlashRow(nextBrick, direction, bricks);
+                OthelloRules.FlashRow(nextBrick, direction, bricks, CURRENT_PLAYER);
 
             }
         }
@@ -105,7 +105,7 @@ public class Othello : MonoBehaviour
 
         if (OthelloManager.Instance.PlayAgainstComputer)
         {
-            if (CURRENT_PLAYER == PlayerColor.Black)
+            if (CURRENT_PLAYER == OthelloManager.Instance.ComputerColor)
             {
                 return;
             }
@@ -118,19 +118,19 @@ public class Othello : MonoBehaviour
             }
         }
         ArrayList validDirections;
-        validDirections = OthelloRules.GetValidDirections(bricks, brick);
+        validDirections = OthelloRules.GetValidDirections(bricks, brick, CURRENT_PLAYER);
 
         if (validDirections.Count > 0)
         {
             clickCoolDown = true;
             doneFirstMove = true;
             showOutOfTime = false;
-            OthelloRules.PutDownBrick(brick);
+            OthelloRules.PutDownBrick(brick, CURRENT_PLAYER);
             for (int i = 0; i < validDirections.Count; i++)
             {
                 OthelloRules.Direction direction = (OthelloRules.Direction)validDirections[i];
                 OthelloPiece nextBrick = OthelloRules.NextBrickInDirection(brick.x, brick.y, direction, bricks);
-                OthelloRules.TurnRow(nextBrick, direction, bricks);
+                OthelloRules.TurnRow(nextBrick, direction, bricks, CURRENT_PLAYER);
 
             }
 
@@ -172,7 +172,7 @@ public class Othello : MonoBehaviour
     private void MakeRandomMove()
     {
         ArrayList validMoves;
-        validMoves = OthelloRules.GetAllValidMoves(bricks);
+        validMoves = OthelloRules.GetAllValidMoves(bricks, CURRENT_PLAYER);
         if (validMoves.Count > 0)
         {
             int index = UnityEngine.Random.Range(0, validMoves.Count - 1);
@@ -191,15 +191,15 @@ public class Othello : MonoBehaviour
     {
         var success = false;
         ArrayList validDirections;
-        validDirections = OthelloRules.GetValidDirections(bricks, brick);
+        validDirections = OthelloRules.GetValidDirections(bricks, brick, CURRENT_PLAYER);
         if (validDirections.Count > 0)
         {
-            OthelloRules.PutDownBrick(brick);
+            OthelloRules.PutDownBrick(brick, CURRENT_PLAYER);
             for (int i = 0; i < validDirections.Count; i++)
             {
                 OthelloRules.Direction direction = (OthelloRules.Direction)validDirections[i];
                 OthelloPiece nextBrick = OthelloRules.NextBrickInDirection(brick.x, brick.y, direction, bricks);
-                OthelloRules.TurnRow(nextBrick, direction, bricks);
+                OthelloRules.TurnRow(nextBrick, direction, bricks, CURRENT_PLAYER);
             }
             gameBoard.UpdateBoard(bricks);
             ChangePlayer();
@@ -260,13 +260,13 @@ public class Othello : MonoBehaviour
     {
         print("Computer tries to make a move");
 
-        if (CURRENT_PLAYER == PlayerColor.White)
+        if (CURRENT_PLAYER == OthelloManager.Instance.PlayerColor)
         {
             return;
         }
 
         // MakeRandomMove();
-        OthelloPiece computersChoice = ComputerAI.GetMove(bricks);
+        OthelloPiece computersChoice = ComputerAI.GetMove(bricks, OthelloManager.Instance.ComputerLevel);
         MakeMove(computersChoice);
         print("Computer has made his turn");
     }
@@ -278,10 +278,15 @@ public class Othello : MonoBehaviour
     {
         if (!OthelloManager.Instance.UseHints)
         {
+            foreach (OthelloPiece item in bricks)
+            {
+                if (item.brickColor == BrickColor.Hint)
+                    item.brickColor = BrickColor.Empty;
+            }
             return;
         }
         ArrayList validMoves;
-        validMoves = OthelloRules.GetAllValidMoves(bricks);
+        validMoves = OthelloRules.GetAllValidMoves(bricks, CURRENT_PLAYER);
         foreach (OthelloPiece brick in bricks)
         {
             if (brick.brickColor == BrickColor.Hint)
@@ -306,10 +311,10 @@ public class Othello : MonoBehaviour
             return;
         }
         // No one can move
-        if (!OthelloRules.CanMakeMove(bricks))
+        if (!OthelloRules.CanMakeMove(bricks, CURRENT_PLAYER))
         {
             ChangePlayer();
-            if (!OthelloRules.CanMakeMove(bricks))
+            if (!OthelloRules.CanMakeMove(bricks, CURRENT_PLAYER))
             {
                 AchievementsManager.Instance.EarlyWin();
                 GameOver();
@@ -423,11 +428,25 @@ public class Othello : MonoBehaviour
     {
 
         if (onlineData == null) return;
-        bricks = onlineData.ToOthelloPieceArray(bricks);
+        var tempBricks = onlineData.ToOthelloPieceArray(bricks);
+        if (!OthelloManager.Instance.UseHints)
+        {
+            foreach (var item in tempBricks)
+            {
+                if (item.brickColor == BrickColor.Hint)
+                    item.brickColor = BrickColor.Empty;
+            }
+        }
+        bricks = tempBricks;
+
         doneFirstMove = true;
         gameBoard.UpdateBoard(bricks);
         ChangePlayer();
         CheckForValidMoves();
+        if (OthelloManager.Instance.UseHints)
+        {
+            ShowHints();
+        }
     }
     void DoneMyTurn()
     {

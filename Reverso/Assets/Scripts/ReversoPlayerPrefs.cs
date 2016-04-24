@@ -62,24 +62,24 @@ class ReversoPlayerPrefs : MonoBehaviour
     }
     public static void SetChosenBoard(int id)
     {
-        print("Saving Chosen Board " + id);
+      
         PlayerPrefs.SetInt(CHOSEN_BOARD, id);
     }
     public static int GetChosenBoard()
     {
         int id = PlayerPrefs.GetInt(CHOSEN_BOARD, 0);
-        print("Getting Chosen Board " + id);
+    
         return id;
     }
     public static void SetComputerLevel(OthelloManager.ComputerLevelEnum computerLevel)
     {
-        print("Saving Computer level" + computerLevel);
+     
         PlayerPrefs.SetInt(COMPUTER_LEVEL, (int)computerLevel);
     }
     public static OthelloManager.ComputerLevelEnum GetComputerLevel()
     {
         OthelloManager.ComputerLevelEnum computerLevel = (OthelloManager.ComputerLevelEnum)PlayerPrefs.GetInt(COMPUTER_LEVEL, 0);
-        print("Getting Computer level " + computerLevel);
+      
         return computerLevel;
     }
 

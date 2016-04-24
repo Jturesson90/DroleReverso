@@ -33,7 +33,7 @@ public class OthelloRules
         return hasWinner;
     }
 
-    public static bool CanMakeMove(OthelloPiece[,] bricks)
+    public static bool CanMakeMove(OthelloPiece[,] bricks, Othello.PlayerColor currentPlayer)
     {
 
         int i = 0;
@@ -48,10 +48,10 @@ public class OthelloRules
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
-                OthelloPiece nextBrick = NextBrickInDirection(brick.x, brick.y, direction,bricks);
+                OthelloPiece nextBrick = NextBrickInDirection(brick.x, brick.y, direction, bricks);
                 if (nextBrick != null)
                 {
-                    if (ValidateLine(nextBrick.x, nextBrick.y, direction, 1,bricks))
+                    if (ValidateLine(nextBrick.x, nextBrick.y, direction, 1, bricks, currentPlayer))
                     {
                         return true;
                     }
@@ -61,18 +61,18 @@ public class OthelloRules
         return false;
     }
 
-    public static ArrayList GetValidDirections(OthelloPiece[,] bricks, OthelloPiece brick)
+    public static ArrayList GetValidDirections(OthelloPiece[,] bricks, OthelloPiece brick, Othello.PlayerColor currentPlayer)
     {
-        
+
         //	print ("Checking Valid Moves");
         ArrayList validDirections = new ArrayList();
         foreach (Direction direction in Enum.GetValues(typeof(Direction)))
         {
-            OthelloPiece nextBrick = NextBrickInDirection(brick.x, brick.y, direction,bricks);
+            OthelloPiece nextBrick = NextBrickInDirection(brick.x, brick.y, direction, bricks);
             if (nextBrick != null)
             {
                 //print ("valid move: X." + nextBrick.x + " Y. " + nextBrick.y + " in direction " + direction);
-                if (ValidateLine(nextBrick.x, nextBrick.y, direction, 1,bricks))
+                if (ValidateLine(nextBrick.x, nextBrick.y, direction, 1, bricks, currentPlayer))
                 {
                     validDirections.Add(direction);
                 }
@@ -80,7 +80,7 @@ public class OthelloRules
         }
         return validDirections;
     }
-    static bool ValidateLine(int X, int Y, Direction direction, int step, OthelloPiece[,] bricks)
+    static bool ValidateLine(int X, int Y, Direction direction, int step, OthelloPiece[,] bricks, Othello.PlayerColor currentPlayer)
     {
         //Here we want to get a complete Othello Line. Where
         int max = (int)Mathf.Sqrt(bricks.Length);
@@ -99,13 +99,13 @@ public class OthelloRules
             return false;
         }
         //if has stepped over atleast 1 of opponents bricks and now finds your own color. Returns true and validates the move as a valid move. 
-        else if (step > 1 && ((Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.White)))
+        else if (step > 1 && ((currentPlayer == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.Black) || (currentPlayer == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.White)))
         {
             //	print (direction + " Next brick makes the line VALID!");
             return true;
         }
         //if first checked brick is the same color return false
-        else if (step == 1 && ((Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.White)))
+        else if (step == 1 && ((currentPlayer == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.Black) || (currentPlayer == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.White)))
         {
             //	print (direction + " Next brick on the first step is the same color!");
             return false;
@@ -113,11 +113,11 @@ public class OthelloRules
         else
         {
             //	print (direction + " CONTINUING for next Validation");
-            OthelloPiece brick = NextBrickInDirection(X, Y, direction,bricks);
+            OthelloPiece brick = NextBrickInDirection(X, Y, direction, bricks);
             if (brick != null)
             {
                 step += 1;
-                return ValidateLine(brick.x, brick.y, direction, step,bricks);
+                return ValidateLine(brick.x, brick.y, direction, step, bricks, currentPlayer);
             }
             else
             {
@@ -174,7 +174,7 @@ public class OthelloRules
         }
         return null;
     }
-    public static ArrayList GetAllValidMoves(OthelloPiece[,] bricks)
+    public static ArrayList GetAllValidMoves(OthelloPiece[,] bricks, Othello.PlayerColor currentPlayer)
     {
         ArrayList validMoves = new ArrayList();
         ArrayList validDirections;
@@ -182,7 +182,7 @@ public class OthelloRules
         {
             if (brick.brickColor == BrickColor.Empty || brick.brickColor == BrickColor.Hint)
             {
-                validDirections = GetValidDirections(bricks,brick);
+                validDirections = GetValidDirections(bricks, brick, currentPlayer);
                 if (validDirections.Count > 0)
                 {
                     validMoves.Add(brick);
@@ -191,41 +191,43 @@ public class OthelloRules
         }
         return validMoves;
     }
-    public static void FlashRow(OthelloPiece brick, Direction direction, OthelloPiece[,] bricks)
+
+
+    public static void FlashRow(OthelloPiece brick, Direction direction, OthelloPiece[,] bricks, Othello.PlayerColor currentPlayer)
     {
         int X = brick.x;
         int Y = brick.y;
-        if ((Othello.CURRENT_PLAYER == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.White))
+        if ((currentPlayer == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.Black) || (currentPlayer == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.White))
         {
             Flash(brick);
 
-            brick = NextBrickInDirection(X, Y, direction,bricks);
-            FlashRow(brick, direction,bricks);
+            brick = NextBrickInDirection(X, Y, direction, bricks);
+            FlashRow(brick, direction, bricks, currentPlayer);
         }
         else
         {
             return;
         }
     }
-    public static void TurnRow(OthelloPiece brick, Direction direction, OthelloPiece[,] bricks)
+    public static void TurnRow(OthelloPiece brick, Direction direction, OthelloPiece[,] bricks, Othello.PlayerColor currentPlayer)
     {
         int X = brick.x;
         int Y = brick.y;
-        if ((Othello.CURRENT_PLAYER == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.Black) || (Othello.CURRENT_PLAYER == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.White))
+        if ((currentPlayer == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.Black) || (currentPlayer == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.White))
         {
             Turn(brick);
 
-            brick = NextBrickInDirection(X, Y, direction,bricks);
-            TurnRow(brick, direction,bricks);
+            brick = NextBrickInDirection(X, Y, direction, bricks);
+            TurnRow(brick, direction, bricks, currentPlayer);
         }
         else
         {
             return;
         }
     }
-    public static void PutDownBrick(OthelloPiece brick)
+    public static void PutDownBrick(OthelloPiece brick, Othello.PlayerColor currentPlayer)
     {
-        if (Othello.CURRENT_PLAYER == Othello.PlayerColor.White)
+        if (currentPlayer == Othello.PlayerColor.White)
         {
             brick.brickColor = BrickColor.White;
         }

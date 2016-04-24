@@ -30,7 +30,7 @@ public class Othello : MonoBehaviour
     }
 
     public static PlayerColor CURRENT_PLAYER = PlayerColor.White;
-    
+
     public OthelloPiece[,] bricks;
 
 
@@ -59,9 +59,10 @@ public class Othello : MonoBehaviour
 
     void Start()
     {
-       // board.Bricks = gameBoard.SetupBoard(bricks);
+        // board.Bricks = gameBoard.SetupBoard(bricks);
         bricks = gameBoard.SetupBoard(bricks);
         ShowHints();
+        
     }
 
 

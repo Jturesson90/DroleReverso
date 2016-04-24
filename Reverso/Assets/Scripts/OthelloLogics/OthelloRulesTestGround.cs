@@ -48,11 +48,7 @@ public class OthelloRulesTestGround
         {
             var board = MakeCopyOfBricks(bricks);
             Brick tempBrick = board[brick.x, brick.y];
-
             MakeMove(ref board, tempBrick, currentColor);
-
-
-
             List<Brick> allValidMoves = GetAllValidMoves(board, opponentColor);
             bool opponentCanTakeCorner = false;
             opponentCanTakeCorner = CheckIfOpponentCanTakeACorner(allValidMoves);

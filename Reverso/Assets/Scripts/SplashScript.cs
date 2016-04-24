@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SplashScript : MonoBehaviour {
+public class SplashScript : MonoBehaviour
+{
 
     public LevelSwitcher levelSwitcher;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        Application.targetFrameRate = 60;
         ReversoPlayerPrefs.SetShouldLogIn(true);
         StartCoroutine(WaitForRealSeconds(1.5f));
-       
+
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     private IEnumerator WaitForRealSeconds(float time)
     {
         float start = Time.realtimeSinceStartup;

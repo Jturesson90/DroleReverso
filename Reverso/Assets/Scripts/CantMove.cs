@@ -80,13 +80,13 @@ public class CantMove : MonoBehaviour
 
     public void OutOfTimeWin(Othello.PlayerColor looser)
     {
-        string winText = "Congratulations, ";
+        string winText = "Congratulations ";
         print("Looser! " + looser);
         if (OthelloManager.Instance.PlayingOnline)
         {
             bool isWinner = looser == OthelloManager.Instance.PlayerColor ? false : true;
 
-            winText = isWinner ? "Congratulations, you won!!" : "You lost!";
+            winText = isWinner ? "Congratulations, you won!" : "You lost!";
         }
         else
         {
@@ -108,7 +108,7 @@ public class CantMove : MonoBehaviour
         othello.canMove = false;
         int whites = 0;
         int blacks = 0;
-        string winText = "Congratulations, ";
+        string winText = "Congratulations ";
         bool whiteWon = false;
         foreach (OthelloPiece brick in bricks)
         {
@@ -127,7 +127,7 @@ public class CantMove : MonoBehaviour
         {
             if (OthelloManager.Instance.PlayerIsWhite() && whiteWon)
             {
-                winText += " you won!!";
+                winText += " you won!";
             }
             else if (OthelloManager.Instance.PlayerIsWhite() && !whiteWon)
             {
@@ -135,7 +135,7 @@ public class CantMove : MonoBehaviour
             }
             else if (!OthelloManager.Instance.PlayerIsWhite() && !whiteWon)
             {
-                winText += " you won!!";
+                winText += " you won!";
             }
             else if (!OthelloManager.Instance.PlayerIsWhite() && whiteWon)
             {
@@ -186,7 +186,6 @@ public class CantMove : MonoBehaviour
     }
     private string BlackWon()
     {
-
         RotateToBlack();
         return "Black!";
     }
@@ -198,6 +197,7 @@ public class CantMove : MonoBehaviour
     public void OKPressed()
     {
         anim.SetTrigger(TRIGGER_SWIPE_OUT);
+        OthelloManager.Instance.ComputerIsWaitingForRespond = false;
     }
     public void AnimationSwipeOutCallback()
     {

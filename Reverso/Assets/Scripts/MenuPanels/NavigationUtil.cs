@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 
 using System.Collections;
+using System;
 
 // Utility class to navigate between the various panels in the main scene.
 public static class NavigationUtil
@@ -148,6 +149,15 @@ public static class NavigationUtil
             {
                 Debug.Log("PanelMgr script Missing");
             }
+        }
+    }
+
+    public static void ShowComputerLevelSelectionPanel()
+    {
+        PanelMgr mgr = PanelMgr;
+        if (mgr != null)
+        {
+            mgr.OpenComputerLevelSelectionPanel();
         }
     }
 }

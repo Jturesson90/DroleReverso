@@ -36,7 +36,7 @@ public class ExitApplication : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            
+
             if (SceneManager.GetActiveScene().name.Equals("GameScene"))
             {
                 ShowExitDialog();
@@ -66,7 +66,7 @@ public class ExitApplication : MonoBehaviour
     }
     public void YesButton()
     {
-        if (Application.loadedLevelName.Equals("GameScene"))
+        if (SceneManager.GetActiveScene().name.Equals("GameScene"))
         {
             if (OthelloManager.Instance != null)
             {
@@ -76,7 +76,7 @@ public class ExitApplication : MonoBehaviour
                     return;
                 }
             }
-            Application.LoadLevel("GameMenu");
+            SceneManager.LoadScene("GameMenu");
         }
         else
         {

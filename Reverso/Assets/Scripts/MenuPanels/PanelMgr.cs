@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PanelMgr : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PanelMgr : MonoBehaviour
     public GameObject onlineMenu;
     public GameObject themesPanel;
     public GameObject invitationPanel;
+    public GameObject computerLevelSelectionPanel;
 
     private GameObject currentPanel;
     private GameObject prevSelected;
@@ -23,7 +25,8 @@ public class PanelMgr : MonoBehaviour
 
     void Start()
     {
-        if (Application.loadedLevelName.Equals("GameMenu"))
+
+        if (SceneManager.GetActiveScene().name.Equals("GameMenu"))
         {
 
             OpenMainMenuPanel();
@@ -32,14 +35,14 @@ public class PanelMgr : MonoBehaviour
     public void OpenMainMenuPanel()
     {
 
-        if (!Application.loadedLevelName.Equals("GameScene"))
+        if (!SceneManager.GetActiveScene().name.Equals("GameScene"))
         {
             OpenPanel(mainMenu);
 
         }
         else
         {
-            Application.LoadLevel("GameMenu");
+            SceneManager.LoadScene("GameMenu");
         }
 
     }
@@ -47,7 +50,7 @@ public class PanelMgr : MonoBehaviour
 
     public void OpenThemesPanel()
     {
-		OpenPanel(themesPanel);
+        OpenPanel(themesPanel);
 
     }
 
@@ -68,6 +71,17 @@ public class PanelMgr : MonoBehaviour
         }
 
 
+    }
+    public void OpenComputerLevelSelectionPanel()
+    {
+        if (currentPanel == optionsPanel)
+        {
+            OpenPanel(mainMenu);
+        }
+        else
+        {
+            OpenPanel(computerLevelSelectionPanel);
+        }
     }
     public void OpenOptionsPanel()
     {

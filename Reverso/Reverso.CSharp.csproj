@@ -81,11 +81,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AchievmentTester.cs" />
-    <Compile Include="Assets\BoardChooser.cs" />
-    <Compile Include="Assets\CloseButton.cs" />
-    <Compile Include="Assets\ComputerLevelToggle.cs" />
-    <Compile Include="Assets\GameBackButton.cs" />
     <Compile Include="Assets\Gamestrap UI\Effects\GradientEffect.cs" />
     <Compile Include="Assets\Gamestrap UI\Effects\ShadowEffect.cs" />
     <Compile Include="Assets\Gamestrap UI\Helper Scripts\ButtonShowHide.cs" />
@@ -278,43 +273,51 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingEverything.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingPunch.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingRigidbodyCS.cs" />
-    <Compile Include="Assets\MenuCircle.cs" />
-    <Compile Include="Assets\MenuCircleManager.cs" />
-    <Compile Include="Assets\OptionsPanelEvents.cs" />
-    <Compile Include="Assets\OtherGamesShower.cs" />
-    <Compile Include="Assets\RadioToggle.cs" />
-    <Compile Include="Assets\ReversoConstants.cs" />
     <Compile Include="Assets\Scripts\AchievementsManager.cs" />
+    <Compile Include="Assets\Scripts\AchievmentTester.cs" />
+    <Compile Include="Assets\Scripts\BoardChooser.cs" />
     <Compile Include="Assets\Scripts\ButtonLeanAnimation.cs" />
     <Compile Include="Assets\Scripts\CantMove.cs" />
+    <Compile Include="Assets\Scripts\CloseButton.cs" />
+    <Compile Include="Assets\Scripts\ComputerLevelToggle.cs" />
+    <Compile Include="Assets\Scripts\ComputerName.cs" />
     <Compile Include="Assets\Scripts\DebugOSD.cs" />
     <Compile Include="Assets\Scripts\ExitApplication.cs" />
     <Compile Include="Assets\Scripts\Extensions\OthelloPieceExtension.cs" />
     <Compile Include="Assets\Scripts\FitBoardToScreen.cs" />
+    <Compile Include="Assets\Scripts\GameBackButton.cs" />
     <Compile Include="Assets\Scripts\GameBoard.cs" />
     <Compile Include="Assets\Scripts\InvitationManager.cs" />
     <Compile Include="Assets\Scripts\LevelSwitcher.cs" />
+    <Compile Include="Assets\Scripts\MenuCircle.cs" />
+    <Compile Include="Assets\Scripts\MenuCircleManager.cs" />
     <Compile Include="Assets\Scripts\MenuPanels\InvitationEvents.cs" />
     <Compile Include="Assets\Scripts\MenuPanels\MainMenuEvents.cs" />
     <Compile Include="Assets\Scripts\MenuPanels\NavigationUtil.cs" />
     <Compile Include="Assets\Scripts\MenuPanels\OnlineMenuEvents.cs" />
     <Compile Include="Assets\Scripts\MenuPanels\PanelMgr.cs" />
     <Compile Include="Assets\Scripts\OnlinePlayingEvents.cs" />
+    <Compile Include="Assets\Scripts\OptionsPanelEvents.cs" />
     <Compile Include="Assets\Scripts\OthelloLogics\AI\ComputerAI.cs" />
+    <Compile Include="Assets\Scripts\OthelloLogics\Board.cs" />
     <Compile Include="Assets\Scripts\OthelloLogics\Othello.cs" />
     <Compile Include="Assets\Scripts\OthelloLogics\OthelloManager.cs" />
     <Compile Include="Assets\Scripts\OthelloLogics\OthelloPiece.cs" />
     <Compile Include="Assets\Scripts\OthelloLogics\OthelloRules.cs" />
+    <Compile Include="Assets\Scripts\OthelloLogics\OthelloRulesTestGround.cs" />
+    <Compile Include="Assets\Scripts\OtherGamesShower.cs" />
+    <Compile Include="Assets\Scripts\RadioToggle.cs" />
     <Compile Include="Assets\Scripts\RectTransformExtensions.cs" />
+    <Compile Include="Assets\Scripts\ReversoConstants.cs" />
     <Compile Include="Assets\Scripts\ReversoGooglePlay.cs" />
     <Compile Include="Assets\Scripts\ReversoPlayerPrefs.cs" />
     <Compile Include="Assets\Scripts\SplashScript.cs" />
+    <Compile Include="Assets\Scripts\ThemeRow.cs" />
     <Compile Include="Assets\Scripts\ThemeRowEntity.cs" />
+    <Compile Include="Assets\Scripts\ThemesAdapter.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
-    <Compile Include="Assets\ThemeRow.cs" />
-    <Compile Include="Assets\ThemesAdapter.cs" />
-    <Compile Include="Assets\ToggleImageHandler.cs" />
-    <Compile Include="Assets\TweenMenuButtons.cs" />
+    <Compile Include="Assets\Scripts\ToggleImageHandler.cs" />
+    <Compile Include="Assets\Scripts\TweenMenuButtons.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Gamestrap UI\Fonts\Basis33\LICENSE.txt" />

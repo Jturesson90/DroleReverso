@@ -60,6 +60,14 @@ public class OthelloManager
             return _playerColor;
         }
     }
+    public Othello.PlayerColor ComputerColor
+    {
+        get
+        {
+
+            return _playerColor == Othello.PlayerColor.White ? Othello.PlayerColor.Black : Othello.PlayerColor.White;
+        }
+    }
 
     public bool ShowTimers
     {
@@ -177,6 +185,7 @@ public class OthelloManager
         _instance = new OthelloManager();
         _instance._playingOnline = false;
         _instance._playAgainstComputer = true;
+        _instance._playerColor = Othello.PlayerColor.White;
         StartGame();
     }
     public static void StartOnline(bool thisPlayerStarts, string opponentName)

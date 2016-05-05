@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameBoard : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class GameBoard : MonoBehaviour
     {
         if (OthelloManager.Instance.PlayAgainstComputer)
         {
-            SetOpponentName("Computer " + OthelloManager.Instance.ComputerLevel);
+            SetOpponentName(ComputerName.GetComputerName(OthelloManager.Instance.ComputerLevel));
             DeactiveOpponentTimeText();
 
             return;
@@ -285,8 +286,7 @@ public class GameBoard : MonoBehaviour
     }
     public void UpdateLabels(int blacks, int whites)
     {
-
-        if (Application.loadedLevelName.Equals("GameScene"))
+        if (SceneManager.GetActiveScene().name.Equals("GameScene"))
         {
             UpdateBlackSideLabels(blacks, whites);
             UpdateWhiteSideLabels(blacks, whites);

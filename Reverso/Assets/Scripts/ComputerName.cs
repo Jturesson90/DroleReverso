@@ -10,11 +10,11 @@ public static class ComputerName
         var name = string.Empty;
         var computerNames = new string[]
         {
-            "Computer one",
-            "Computer two",
-            "Computer three",
-            "Computer four",
-            "Computer five",
+            "Easy Computer",
+            "Normal Computer",
+            "Hard Computer",
+            "Very Hard Computer",
+            "Computer Impossible",
         };
         if (computerNames.Length > (int)computerLevel)
         {

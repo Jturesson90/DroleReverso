@@ -62,7 +62,7 @@ public class Othello : MonoBehaviour
         // board.Bricks = gameBoard.SetupBoard(bricks);
         bricks = gameBoard.SetupBoard(bricks);
         ShowHints();
-        
+
     }
 
 
@@ -93,7 +93,6 @@ public class Othello : MonoBehaviour
                 OthelloRules.Direction direction = (OthelloRules.Direction)validDirections[i];
                 OthelloPiece nextBrick = OthelloRules.NextBrickInDirection(brick.x, brick.y, direction, bricks);
                 OthelloRules.FlashRow(nextBrick, direction, bricks, CURRENT_PLAYER);
-
             }
         }
     }
@@ -132,9 +131,7 @@ public class Othello : MonoBehaviour
                 OthelloRules.Direction direction = (OthelloRules.Direction)validDirections[i];
                 OthelloPiece nextBrick = OthelloRules.NextBrickInDirection(brick.x, brick.y, direction, bricks);
                 OthelloRules.TurnRow(nextBrick, direction, bricks, CURRENT_PLAYER);
-
             }
-
             gameBoard.UpdateBoard(bricks);
             ChangePlayer();
             CheckForValidMoves();
@@ -164,11 +161,17 @@ public class Othello : MonoBehaviour
             MakeWinner(PlayerColor.Black);
         }
     }
-
     IEnumerator WaitAndMakeComputerMove(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        ComputerMove();
+        if (OthelloManager.Instance.ComputerIsWaitingForRespond)
+        {
+            StartCoroutine(WaitAndMakeComputerMove(1.0f));
+        }
+        else
+        {
+            ComputerMove();
+        }
     }
     private void MakeRandomMove()
     {
@@ -259,17 +262,9 @@ public class Othello : MonoBehaviour
 
     private void ComputerMove()
     {
-        print("Computer tries to make a move");
-
-        if (CURRENT_PLAYER == OthelloManager.Instance.PlayerColor)
-        {
-            return;
-        }
-
-        // MakeRandomMove();
+        if (CURRENT_PLAYER == OthelloManager.Instance.PlayerColor) return;
         OthelloPiece computersChoice = ComputerAI.GetMove(bricks, OthelloManager.Instance.ComputerLevel);
         MakeMove(computersChoice);
-        print("Computer has made his turn");
     }
     public void OnPlayerLeft()
     {
@@ -322,20 +317,50 @@ public class Othello : MonoBehaviour
             }
             else
             {
-                if (CURRENT_PLAYER == Othello.PlayerColor.Black)
+                if (OthelloManager.Instance.PlayAgainstComputer)
                 {
-                    showOutOfTime = false;
-                    cantMove.WhiteCantMove();
-                    if (OthelloManager.Instance.PlayAgainstComputer)
+                    if (CURRENT_PLAYER == OthelloManager.Instance.ComputerColor)
                     {
+                        showOutOfTime = false;
                         StartCoroutine(WaitAndMakeComputerMove(1.0F));
+                        OthelloManager.Instance.ComputerIsWaitingForRespond = true;
+                        if (OthelloManager.Instance.PlayerColor == PlayerColor.Black)
+                        {
+                            cantMove.BlackCantMove();
+                        }
+                        else
+                        {
+                            cantMove.WhiteCantMove();
+                        }
+                    }
+                    else
+                    {
+                        if (OthelloManager.Instance.PlayerColor == PlayerColor.Black)
+                        {
+                            cantMove.WhiteCantMove();
+
+                        }
+                        else
+                        {
+                            cantMove.BlackCantMove();
+                        }
                     }
                 }
                 else
                 {
-                    showOutOfTime = false;
-                    cantMove.BlackCantMove();
+                    if (CURRENT_PLAYER == PlayerColor.Black)
+                    {
+                        showOutOfTime = false;
+                        cantMove.WhiteCantMove();
+
+                    }
+                    else
+                    {
+                        showOutOfTime = false;
+                        cantMove.BlackCantMove();
+                    }
                 }
+
 
             }
         }

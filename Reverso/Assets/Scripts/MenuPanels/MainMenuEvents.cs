@@ -158,11 +158,30 @@ public class MainMenuEvents : MonoBehaviour
 
     public void OnSinglePlayer()
     {
-        OthelloManager.StartComputer();
+        NavigationUtil.ShowComputerLevelSelectionPanel();
         OthelloManager.Instance.UseHints = hintToggle.isOn;
         OthelloManager.Instance.SpeedMode = speedModeToggle.isOn;
     }
-
+    public void StartComputerEasy()
+    {
+        OthelloManager.StartComputer();
+        OthelloManager.Instance.ComputerLevel = OthelloManager.ComputerLevelEnum.One;
+    }
+    public void StartComputerNormal()
+    {
+        OthelloManager.StartComputer();
+        OthelloManager.Instance.ComputerLevel = OthelloManager.ComputerLevelEnum.Two;
+    }
+    public void StartComputerHard()
+    {
+        OthelloManager.StartComputer();
+        OthelloManager.Instance.ComputerLevel = OthelloManager.ComputerLevelEnum.Three;
+    }
+    public void StartComputerVeryHard()
+    {
+        OthelloManager.StartComputer();
+        OthelloManager.Instance.ComputerLevel = OthelloManager.ComputerLevelEnum.Four;
+    }
 
     public void OnPlayOnline()
     {

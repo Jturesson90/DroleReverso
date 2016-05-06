@@ -13,7 +13,15 @@ public class OthelloManager
     private bool _useHints = true;
     private Othello.PlayerColor _playerColor;
     private ComputerLevelEnum? _computerLevel;
-
+    private bool _computerIsWaitingForRespond;
+    public bool ComputerIsWaitingForRespond
+    {
+        get
+        {
+            return _computerIsWaitingForRespond;
+        }
+        set { _computerIsWaitingForRespond = value; }
+    }
 
     public enum ComputerLevelEnum
     {

@@ -262,6 +262,11 @@ namespace GooglePlayGames
             }
         }
 
+        public void Authenticate(Action<bool, string> callback)
+        {
+            //throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Player stats. See https://developers.google.com/games/services/android/stats
         /// </summary>

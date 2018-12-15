@@ -29,7 +29,7 @@
                 <h1><a href="http://dentedpixel.com/developer-diary/leantween-speed-comparison-to-itween/"><img src="http://s3.amazonaws.com/dentedpixel.com/LeanTween/leantween-logo.png" title=""></a></h1> <div style="position:absolute; left:146px; top:90px;">- Developed by <a href="http://www.dentedpixel.com">Dented Pixel</a></div>
         </div>
         <div class="yui3-u-1-4 version">
-            <em style="margin-top:2px">API Docs for: LeanTween 2.32</em><br>
+            <em style="margin-top:2px">API Docs for: LeanTween 2.50</em><br>
             <table id="support">
                 <tr>
                 <td>
@@ -73,12 +73,16 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/LeanAudio.html">LeanAudio</a></li>
+                                <li><a href="../classes/LeanAudioOptions.html">LeanAudioOptions</a></li>
+                                <li><a href="../classes/LeanSmooth.html">LeanSmooth</a></li>
                                 <li><a href="../classes/LeanTween.html">LeanTween</a></li>
                                 <li><a href="../classes/LeanTweenType.html">LeanTweenType</a></li>
                                 <li><a href="../classes/LTBezierPath.html">LTBezierPath</a></li>
                                 <li><a href="../classes/LTDescr.html">LTDescr</a></li>
                                 <li><a href="../classes/LTEvent.html">LTEvent</a></li>
                                 <li><a href="../classes/LTRect.html">LTRect</a></li>
+                                <li><a href="../classes/LTSeq.html">LTSeq</a></li>
                                 <li><a href="../classes/LTSpline.html">LTSpline</a></li>
                             </ul>
                 
@@ -91,7 +95,7 @@
                     <h2>More From<br><a href="http://www.dentedpixel.com">Dented Pixel</a></h2><br>
                     <a href="https://www.assetstore.unity3d.com/en/#!/content/9455" target="_blank"><img src="http://dentedpixel.com/assets/LTEditor-doc-icon.jpg" width="175" height="175" /><br>Create tweens with: Visual Editor. Sculpt complex spline paths.</a>
                     <br>
-                    <a href="https://itunes.apple.com/us/app/monkeyshines/id530998075?mt=8" target="_blank"><img src="http://a5.mzstatic.com/us/r1000/102/Purple/v4/00/5c/57/005c571e-ef17-2370-6aad-058a17ff9fd9/mzm.yvphsjfk.175x175-75.jpg" width="175" height="175" /><br>RIN - A swinging good time!</a>
+                    <a href="https://itunes.apple.com/us/app/monkeyshines/id530998075?mt=8" target="_blank"><img src="http://a1.mzstatic.com/us/r30/Purple3/v4/d4/2b/ce/d42bce69-b3d3-d7f8-88e9-caa92664b5b1/icon350x350.jpeg" width="175" height="175" /><br>RIN - A swinging good time!</a>
                     <br>
                     <a href="https://itunes.apple.com/us/app/princess-piano/id445283531?mt=8" target="_blank"><img src="http://a3.mzstatic.com/us/r1000/096/Purple/v4/8c/1e/05/8c1e0590-db82-1d72-2956-2b6470f37ed0/mza_4230031260893485317.175x175-75.jpg" width="175" height="175" /><br>Princess Piano - Learn musical notation<br>in this melodious adventure!</a>
                 </div>
@@ -129,7 +133,7 @@
                         
                         
                                 <div class="foundat">
-                                    Defined in: <a href="../files/LeanTween.cs.html#l4772"><code>LeanTween.cs:4772</code></a>
+                                    Defined in: <a href="../files/LeanTween.cs.html#l3155"><code>LeanTween.cs:3155</code></a>
                                 </div>
                         
                         
@@ -137,7 +141,7 @@
                         
                         
                         <div class="box intro">
-                            <p>Animate along a set of points that need to be in the format: controlPoint, point1, point2.... pointLast, endControlPoint</p>
+                            <p>Animate along a set of points that need to be in the format: controlPoint, point1, point2.... pointLast, endControlPoint <summary>Move a GameObject to a certain location</summary></p>
                         
                         </div>
                         
@@ -164,7 +168,7 @@
                                     <div class="meta">
                                                 <p>
                                                 Defined in
-                                        <a href="../files/LeanTween.cs.html#l4772"><code>LeanTween.cs:4772</code></a>
+                                        <a href="../files/LeanTween.cs.html#l3155"><code>LeanTween.cs:3155</code></a>
                                         </p>
                                 
                                 
@@ -185,7 +189,8 @@
                                 
                                 
                                                     <div class="param-description">
-                                                        <p>A set of points that define the points the path will pass through (starting with starting control point, and ending with a control point)</p>
+                                                        <p>A set of points that define the points the path will pass through (starting with starting control point, and ending with a control point)<br />
+                                <i><strong>Note:</strong> The first and last item just define the angle of the end points, they are not actually used in the spline path itself. If you do not care about the angle you can jus set the first two items and last two items as the same value.</i></p>
                                 
                                                     </div>
                                 
@@ -198,8 +203,8 @@
                                             <h4>Example:</h4>
                                 
                                             <div class="example-content">
-                                                <p>LTSpline ltSpline = new LTSpline( new Vector3[] { new Vector3(0f,0f,0f),new Vector3(0f,0f,0f), new Vector3(0f,0.5f,0f), new Vector3(1f,1f,0f), new Vector3(1f,1f,0f)} );<br><br>
-                                LeanTween.moveSpline(lt, ltSpline.vec3, 4.0f).setOrientToPath(true).setDelay(1f).setEase(LeanTweenType.easeInOutQuad); // animate <br>
+                                                <p>LTSpline ltSpline = new LTSpline( new Vector3[] { new Vector3(0f,0f,0f),new Vector3(0f,0f,0f), new Vector3(0f,0.5f,0f), new Vector3(1f,1f,0f), new Vector3(1f,1f,0f)} );<br /><br />
+                                LeanTween.moveSpline(lt, ltSpline.vec3, 4.0f).setOrientToPath(true).setDelay(1f).setEase(LeanTweenType.easeInOutQuad); // animate <br />
                                 Vector3 pt = ltSpline.point( 0.6f ); // retrieve a point along the path</p>
                                 
                                             </div>
@@ -212,6 +217,7 @@
                                 <li class="api-class-tab index"><a href="#index">Index</a></li>
                         
                                     <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+                                    <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
                             </ul>
                         
                             <div>
@@ -242,9 +248,23 @@
                                                         <a href="#method_point">point</a>
                         
                                                     </li>
+                                                    <li class="index-item method">
+                                                        <a href="#method_ratioAtPoint">ratioAtPoint</a>
+                        
+                                                    </li>
                                             </ul>
                                         </div>
                         
+                                        <div class="index-section properties">
+                                            <h3>Properties</h3>
+                        
+                                            <ul class="index-list properties">
+                                                    <li class="index-item property">
+                                                        <a href="#property_distance distance of the spline (in unity units)">distance distance of the spline (in unity units)</a>
+                        
+                                                    </li>
+                                            </ul>
+                                        </div>
                         
                         
                                 </div>
@@ -276,7 +296,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/LeanTween.cs.html#l4930"><code>LeanTween.cs:4930</code></a>
+                                                    <a href="../files/LeanTween.cs.html#l3373"><code>LeanTween.cs:3373</code></a>
                                                     </p>
                                             
                                             
@@ -284,7 +304,7 @@
                                                 </div>
                                             
                                                 <div class="description">
-                                                    <p>Place an object along a certain point on the path (facing the direction perpendicular to the path)</p>
+                                                    <p>Place an object along a certain point on the path (facing the direction perpendicular to the path) <summary>Move a GameObject to a certain location</summary></p>
                                             
                                                 </div>
                                             
@@ -354,7 +374,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/LeanTween.cs.html#l4943"><code>LeanTween.cs:4943</code></a>
+                                                    <a href="../files/LeanTween.cs.html#l3386"><code>LeanTween.cs:3386</code></a>
                                                     </p>
                                             
                                             
@@ -362,7 +382,7 @@
                                                 </div>
                                             
                                                 <div class="description">
-                                                    <p>Place an object along a certain point on the path, with it facing a certain direction perpendicular to the path</p>
+                                                    <p>Place an object along a certain point on the path, with it facing a certain direction perpendicular to the path <summary>Move a GameObject to a certain location</summary></p>
                                             
                                                 </div>
                                             
@@ -440,7 +460,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/LeanTween.cs.html#l4961"><code>LeanTween.cs:4961</code></a>
+                                                    <a href="../files/LeanTween.cs.html#l3405"><code>LeanTween.cs:3405</code></a>
                                                     </p>
                                             
                                             
@@ -448,7 +468,7 @@
                                                 </div>
                                             
                                                 <div class="description">
-                                                    <p>Place an object along a certain point on the path (facing the direction perpendicular to the path) - Local Space, not world-space</p>
+                                                    <p>Place an object along a certain point on the path (facing the direction perpendicular to the path) - Local Space, not world-space <summary>Move a GameObject to a certain location</summary></p>
                                             
                                                 </div>
                                             
@@ -518,7 +538,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/LeanTween.cs.html#l4974"><code>LeanTween.cs:4974</code></a>
+                                                    <a href="../files/LeanTween.cs.html#l3418"><code>LeanTween.cs:3418</code></a>
                                                     </p>
                                             
                                             
@@ -526,7 +546,7 @@
                                                 </div>
                                             
                                                 <div class="description">
-                                                    <p>Place an object along a certain point on the path, with it facing a certain direction perpendicular to the path - Local Space, not world-space</p>
+                                                    <p>Place an object along a certain point on the path, with it facing a certain direction perpendicular to the path - Local Space, not world-space <summary>Move a GameObject to a certain location</summary></p>
                                             
                                                 </div>
                                             
@@ -604,7 +624,7 @@
                                                 <div class="meta">
                                                             <p>
                                                             Defined in
-                                                    <a href="../files/LeanTween.cs.html#l4894"><code>LeanTween.cs:4894</code></a>
+                                                    <a href="../files/LeanTween.cs.html#l3332"><code>LeanTween.cs:3332</code></a>
                                                     </p>
                                             
                                             
@@ -612,7 +632,7 @@
                                                 </div>
                                             
                                                 <div class="description">
-                                                    <p>Retrieve a point along a path</p>
+                                                    <p>Retrieve a point along a path <summary>Move a GameObject to a certain location</summary></p>
                                             
                                                 </div>
                                             
@@ -653,8 +673,109 @@
                                                         </div>
                                                     </div>
                                             </div>
+                                            <div id="method_ratioAtPoint" class="method item">
+                                                <h3 class="name"><code>ratioAtPoint</code></h3>
+                                            
+                                                    <div class="args">
+                                                        <span class="paren">(</span><ul class="args-list inline commas">
+                                                            <li class="arg">
+                                                                    <code>point:Vector3</code>
+                                                            </li>
+                                                        </ul><span class="paren">)</span>
+                                                    </div>
+                                            
+                                                    <span class="returns-inline">
+                                                        <span class="type">Float</span>
+                                                    </span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/LeanTween.cs.html#l3308"><code>LeanTween.cs:3308</code></a>
+                                                    </p>
+                                            
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    <p>Retrieve a point along a path <summary>Move a GameObject to a certain location</summary></p>
+                                            
+                                                </div>
+                                            
+                                                    <div class="params">
+                                                        <h4>Parameters:</h4>
+                                            
+                                                        <ul class="params-list">
+                                                            <li class="param">
+                                                                    <code class="param-name">point:Vector3</code>
+                                                                    <span class="type">Vector3</span>
+                                            
+                                            
+                                                                <div class="param-description">
+                                                                    <p>given a current location it makes the best approximiation of where it is along the path ratio-wise (0-1)</p>
+                                            
+                                                                </div>
+                                            
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            
+                                                    <div class="returns">
+                                                        <h4>Returns:</h4>
+                                            
+                                                        <div class="returns-description">
+                                                                    <span class="type">Float</span>:
+                                                                <p>float of ratio along the path</p>
+                                            
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="example">
+                                                        <h4>Example:</h4>
+                                            
+                                                        <div class="example-content">
+                                                            <p>ratioIter = ltSpline.ratioAtPoint( transform.position );</p>
+                                            
+                                                        </div>
+                                                    </div>
+                                            </div>
                                     </div>
                         
+                                    <div id="properties" class="api-class-tabpanel">
+                                        <h2 class="off-left">Properties</h2>
+                        
+                                            <div id="property_distance distance of the spline (in unity units)" class="property item">
+                                                <h3 class="name"><code>distance distance of the spline (in unity units)</code></h3>
+                                                <span class="type">Float</span>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                <div class="meta">
+                                                            <p>
+                                                            Defined in
+                                                    <a href="../files/LeanTween.cs.html#l3171"><code>LeanTween.cs:3171</code></a>
+                                                    </p>
+                                            
+                                            
+                                                </div>
+                                            
+                                                <div class="description">
+                                                    
+                                                </div>
+                                            
+                                            
+                                            
+                                            </div>
+                                    </div>
                         
                         
                             </div>

@@ -38,6 +38,7 @@ public class OtherGamesShower : MonoBehaviour
 
 
     }
+
     void Start()
     {
         TweenIn(2f);
@@ -51,25 +52,27 @@ public class OtherGamesShower : MonoBehaviour
             ChangeGame();
         }
     }
-    void ChangeGame()
+
+    private void ChangeGame()
     {
         if (tweenedOut) return;
         TweenOut(0f);
         StartCoroutine(Wait(1f));
-
-
     }
-    IEnumerator Wait(float seconds)
+
+    private IEnumerator Wait(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         TweenIn(0f);
     }
-    void TweenOut(float delay)
+
+    private void TweenOut(float delay)
     {
         LeanTween.move(_rectT, _fromPos, 0.6f).setEase(tweenTypeOut).setDelay(delay);
         tweenedOut = true;
     }
-    void TweenIn(float delay)
+
+    private void TweenIn(float delay)
     {
         if (!imageHolder) return;
         _chosenIndex++;
@@ -78,7 +81,7 @@ public class OtherGamesShower : MonoBehaviour
         changedAtTime = Time.timeSinceLevelLoad;
 
         LeanTween.move(_rectT, _toPos, 0.6f).setEase(tweenTypeIn).setDelay(delay);
-      
+
         tweenedOut = false;
     }
 
@@ -91,7 +94,7 @@ public class OtherGamesShower : MonoBehaviour
         _chosenGame = otherGames[_chosenIndex];
         if (_chosenGame.Equals(null)) return;
 
-        string url;
+        string url = "";
 #if UNITY_ANDROID
         url = _chosenGame.AndroidUrl;
 

@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GooglePlayGames/ISocialPlatform/PlayGamesLocalUser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ReversoPlayerPrefs.cs">
     <Files>
       <File FileName="Assets/Scripts/OtherGamesShower.cs" Line="75" Column="13" />
-      <File FileName="Assets/LeanTween/Examples/Scripts/TestingAllCS.cs" Line="174" Column="1" />
       <File FileName="Assets/GooglePlayGames/ISocialPlatform/PlayGamesPlatform.cs" Line="1132" Column="14" />
-      <File FileName="Assets/GooglePlayGames/ISocialPlatform/PlayGamesLocalUser.cs" Line="26" Column="64" />
+      <File FileName="Assets/GooglePlayGames/ISocialPlatform/PlayGamesLocalUser.cs" Line="267" Column="15" />
+      <File FileName="Assets/Scripts/SoundManager.cs" Line="40" Column="95" />
+      <File FileName="Assets/Scripts/OptionsPanelEvents.cs" Line="58" Column="27" />
+      <File FileName="Assets/Scripts/ReversoPlayerPrefs.cs" Line="12" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

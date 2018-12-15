@@ -283,6 +283,7 @@
     <Compile Include="Assets\Scripts\ReversoConstants.cs" />
     <Compile Include="Assets\Scripts\ReversoGooglePlay.cs" />
     <Compile Include="Assets\Scripts\ReversoPlayerPrefs.cs" />
+    <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Scripts\SplashScript.cs" />
     <Compile Include="Assets\Scripts\ThemeRow.cs" />
     <Compile Include="Assets\Scripts\ThemeRowEntity.cs" />

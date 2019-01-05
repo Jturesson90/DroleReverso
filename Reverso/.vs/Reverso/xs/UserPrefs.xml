@@ -1,19 +1,32 @@
 ﻿<Properties StartupConfiguration="{0C51C955-DC45-93BF-3B9C-A1A4BEA383C6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ReversoPlayerPrefs.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ReversoSceneManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/OtherGamesShower.cs" Line="75" Column="13" />
-      <File FileName="Assets/GooglePlayGames/ISocialPlatform/PlayGamesPlatform.cs" Line="1132" Column="14" />
-      <File FileName="Assets/GooglePlayGames/ISocialPlatform/PlayGamesLocalUser.cs" Line="267" Column="15" />
-      <File FileName="Assets/Scripts/SoundManager.cs" Line="40" Column="95" />
-      <File FileName="Assets/Scripts/OptionsPanelEvents.cs" Line="58" Column="27" />
-      <File FileName="Assets/Scripts/ReversoPlayerPrefs.cs" Line="12" Column="32" />
+      <File FileName="Assets/Scripts/SoundManager.cs" Line="3" Column="19" />
+      <File FileName="Assets/Scripts/ReversoPlayerPrefs.cs" Line="89" Column="32" />
+      <File FileName="Assets/Scripts/OptionsPanelEvents.cs" Line="61" Column="34" />
+      <File FileName="Assets/Scripts/GameBoard.cs" Line="272" Column="54" />
+      <File FileName="Assets/Scripts/OthelloLogics/Othello.cs" Line="42" Column="42" />
+      <File FileName="Assets/Scripts/OthelloLogics/OthelloRules.cs" Line="217" Column="25" />
+      <File FileName="Assets/Scripts/SplashScript.cs" Line="8" Column="30" />
+      <File FileName="Assets/Scripts/MenuPanels/MainMenuEvents.cs" Line="167" Column="37" />
+      <File FileName="Assets/Scripts/OthelloLogics/OthelloManager.cs" Line="180" Column="46" />
+      <File FileName="Assets/ReversoSceneManager.cs" Line="46" Column="5" />
+      <File FileName="Assets/Scripts/MenuPanels/PanelMgr.cs" Line="46" Column="10" />
+      <File FileName="Assets/Scripts/ExitApplication.cs" Line="83" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/ReversoPlayerPrefs.cs" relfile="Assets/Scripts/ReversoPlayerPrefs.cs" line="91" column="1" />
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/SoundManager.cs" relfile="Assets/Scripts/SoundManager.cs" line="30" column="39" />
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/SoundManager.cs" relfile="Assets/Scripts/SoundManager.cs" line="29" column="1" />
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/OthelloLogics/Othello.cs" relfile="Assets/Scripts/OthelloLogics/Othello.cs" line="191" column="1" />
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/OthelloLogics/Othello.cs" relfile="Assets/Scripts/OthelloLogics/Othello.cs" line="186" column="1" />
+      <Breakpoint file="/Users/jesperturesson/Developer/ReversoGit/Reverso/Assets/Scripts/OthelloLogics/Othello.cs" relfile="Assets/Scripts/OthelloLogics/Othello.cs" line="63" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

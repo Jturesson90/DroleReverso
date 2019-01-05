@@ -42,7 +42,8 @@ public class PanelMgr : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("GameMenu");
+            ReversoSceneManager.StartMenuScene();
+         
         }
 
     }

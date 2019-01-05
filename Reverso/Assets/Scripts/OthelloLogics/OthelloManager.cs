@@ -177,7 +177,7 @@ public class OthelloManager
         //Application.LoadLevel("GameScene")
         HasStartedGame = true;
         ReversoPlayerPrefs.SetChosenBoard(_chosenBoard);
-        SceneManager.LoadSceneAsync("GameScene");
+        ReversoSceneManager.StartGameScene();
     }
 
     public static void StartVersus()

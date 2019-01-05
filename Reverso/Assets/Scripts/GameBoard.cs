@@ -32,22 +32,19 @@ public class GameBoard : MonoBehaviour
     bool longPress = false;
     bool longPressUsed = false;
 
-    void Awake()
+    private void Awake()
     {
-
         opponentName.SetActive(false);
         whiteTextWhiteSide = GameObject.Find("WhitesWhiteSide").GetComponent<Text>();
         whiteTextBlackSide = GameObject.Find("WhitesBlackSide").GetComponent<Text>();
         blackTextWhiteSide = GameObject.Find("BlacksWhiteSide").GetComponent<Text>();
         blackTextBlackSide = GameObject.Find("BlacksBlackSide").GetComponent<Text>();
 
-
-
-
         whiteTimeLeftText.gameObject.SetActive(false);
         blackTimeLeftText.gameObject.SetActive(false);
     }
-    void Start()
+
+    private void Start()
     {
         CheckPlayerColor();
         Screen.sleepTimeout = (int)SleepTimeout.NeverSleep;
@@ -71,6 +68,7 @@ public class GameBoard : MonoBehaviour
 
             return;
         }
+
         if (OthelloManager.Instance.PlayingOnline)
         {
             if (OthelloManager.Instance.PlayerColor == Othello.PlayerColor.White)
@@ -82,14 +80,9 @@ public class GameBoard : MonoBehaviour
                 gameBoard.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
                 rotateCanvas.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
             }
-
-
             DeactiveOpponentTimeText();
             SetOpponentName(OthelloManager.Instance.OpponentName);
         }
-
-
-
     }
     public void DeactiveOpponentTimeText()
     {
@@ -97,6 +90,7 @@ public class GameBoard : MonoBehaviour
         blacksScoreText.SetActive(OthelloManager.Instance.PlayerIsWhite() ? false : true);
 
     }
+
     private void SetOpponentName(string name)
     {
         opponentName.SetActive(true);
@@ -281,16 +275,14 @@ public class GameBoard : MonoBehaviour
             }
         }
         UpdateLabels(blacks, whites);
-
-
     }
+
     public void UpdateLabels(int blacks, int whites)
     {
         if (SceneManager.GetActiveScene().name.Equals("GameScene"))
         {
             UpdateBlackSideLabels(blacks, whites);
             UpdateWhiteSideLabels(blacks, whites);
-            return;
         }
     }
     private void UpdateBlackSideLabels(int blacks, int whites)

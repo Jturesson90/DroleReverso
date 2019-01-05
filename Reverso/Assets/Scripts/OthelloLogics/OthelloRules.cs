@@ -2,10 +2,8 @@
 using System.Collections;
 using Enum = System.Enum;
 
-public class OthelloRules
+public static class OthelloRules
 {
-
-
     public enum Direction
     {
         NW,
@@ -17,9 +15,9 @@ public class OthelloRules
         SW,
         W
     }
+
     public static bool HasWinner(OthelloPiece[,] bricks)
     {
-
         int bricksLeft = 0;
         foreach (OthelloPiece brick in bricks)
         {
@@ -29,7 +27,8 @@ public class OthelloRules
             }
         }
         bool hasWinner = false;
-        hasWinner = bricksLeft == 0 ? true : false;
+        hasWinner = bricksLeft == 0;
+
         return hasWinner;
     }
 
@@ -216,7 +215,6 @@ public class OthelloRules
         if ((currentPlayer == Othello.PlayerColor.White && bricks[X, Y].brickColor == BrickColor.Black) || (currentPlayer == Othello.PlayerColor.Black && bricks[X, Y].brickColor == BrickColor.White))
         {
             Turn(brick);
-
             brick = NextBrickInDirection(X, Y, direction, bricks);
             TurnRow(brick, direction, bricks, currentPlayer);
         }

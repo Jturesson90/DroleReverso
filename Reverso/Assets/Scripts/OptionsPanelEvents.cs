@@ -19,12 +19,14 @@ public class OptionsPanelEvents : MonoBehaviour
     string signOut = "Sign out";
     public Button AchievementButton;
 
+    private bool _hasStarted = false;
     void Start()
     {
         AudioToggle.isOn = soundManager.IsOn;
         HintToggle.isOn = ReversoPlayerPrefs.IsHintsOn();
         TimerToggle.isOn = ReversoPlayerPrefs.IsTimerOn();
 
+        _hasStarted = true;
         //TODO Hold a state and save only when quitting the app
 
     }
@@ -56,16 +58,19 @@ public class OptionsPanelEvents : MonoBehaviour
 
     public void OnTimerPressed()
     {
+        if (!_hasStarted) return;
         ReversoPlayerPrefs.SetTimer(TimerToggle.isOn);
     }
 
     public void OnAudioTogglePressed()
     {
+        if (!_hasStarted) return;
         soundManager.IsOn = AudioToggle.isOn;
     }
 
     public void OnTogglePressed()
     {
+        if (!_hasStarted) return;
         ReversoPlayerPrefs.SetHints(HintToggle.isOn);
     }
 

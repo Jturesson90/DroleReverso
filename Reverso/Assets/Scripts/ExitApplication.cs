@@ -76,7 +76,7 @@ public class ExitApplication : MonoBehaviour
                     return;
                 }
             }
-            SceneManager.LoadScene("GameMenu");
+            ReversoSceneManager.StartMenuScene();
         }
         else
         {

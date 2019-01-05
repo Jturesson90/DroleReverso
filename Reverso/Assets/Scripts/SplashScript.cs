@@ -8,11 +8,8 @@ public class SplashScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Application.targetFrameRate = 60;
         ReversoPlayerPrefs.SetShouldLogIn(true);
         StartCoroutine(WaitForRealSeconds(1.5f));
-
-
     }
 
     // Update is called once per frame

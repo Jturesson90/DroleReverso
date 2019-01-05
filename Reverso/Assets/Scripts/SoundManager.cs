@@ -19,22 +19,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _tileTurnedAudioSource;
     [SerializeField] private AudioSource _wooshAudioSource;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _isOn = ReversoPlayerPrefs.GetAudio();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void OnTileTurned()
     {
         if (!_tileTurnedAudioSource) return;
-        PlaySfx(_tileTurnedAudioSource, _tileTurnedClips.First());
+        PlaySfx(_tileTurnedAudioSource, _tileTurnedClips.First(), UnityEngine.Random.Range(0.99f, 1.03f));
     }
 
     public void OnButtonClick()
